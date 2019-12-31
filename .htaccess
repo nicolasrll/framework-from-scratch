@@ -1,14 +1,4 @@
-# Type de directives autorisées dans les fichiers .htaccess
-DESCRIPTION: 
-
-# AllowOverride All|None|type directive [type directive] ...
-
-# AllowOverride None à partir de la version 2.3.9, AllowOverride All pour les versions antérieures
-Défaut: 
-
-# repertoire
-Contexte: 
-
-# Noyau httpd
-Status: 
-
+RewriteEngine on
+RewritecCond %{REQUEST_FILENAME} !-d #check existing directorys
+RewriteCond %{REQUEST_FILENAME} !-f # check existing files
+RewriteRule . index.php [L] # Made redirection

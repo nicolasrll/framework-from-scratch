@@ -6,14 +6,11 @@
 	</head>
 
 	<body>
-		<?php require "_header.php"; ?>
-
 		
 		<main>
 			<h1>Articles</h1>		
 		</main>
 
-		<?php require "_footer.php"; ?>
 	</body>
 
 </html> 

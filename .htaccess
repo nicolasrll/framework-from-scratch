@@ -1,4 +1,10 @@
-RewriteEngine on
-RewritecCond %{REQUEST_FILENAME} !-d #check existing directorys
-RewriteCond %{REQUEST_FILENAME} !-f # check existing files
-RewriteRule . index.php [L] # Made redirection
+# On suit les liens symboliques
+Options +FollowSymlinks
+# Activation du mot rewrite d'Apache
+RewriteEngine On
+# Réecriture de index.html vers index.php
+RewriteRule ^index\.html$ /index.php
+RewriteRule ^index\.html/([a-z]?)$ /index.html?page=$1 [L]
+
+
+

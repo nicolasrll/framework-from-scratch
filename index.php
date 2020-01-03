@@ -13,9 +13,6 @@
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
 				switch($page){
-					case "accueil":
-						index();
-						break;
 					case "article":
 						article();
 						break;

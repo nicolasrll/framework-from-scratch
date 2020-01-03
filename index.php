@@ -9,20 +9,31 @@
 		<?php require "_header.php"; ?>
 		
 		<main>
-			<?php									
+			<?php
+				function index(){
+					$content = require "accueil.php";
+				}
+				function article(){
+					$content = require "article.php";
+				}
+				function articles(){
+					$content = require"articles.php";
+				}
+				function authentification(){
+					$content = require "authentification.php";
+				}
 				switch($_GET['page']){
 					case "accueil":
-						$content = require "accueil.php";
+						index();
 						break;
 					case "article":
-						$content = require "article.php";
-						
+						article();
 						break;
 					case "articles":
-						$content = require"articles.php";
+						articles();
 						break;
 					case "authentification":
-						$content = require "authentification.php";
+						authentification();
 						break;
 				}
 

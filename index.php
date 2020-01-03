@@ -8,6 +8,7 @@
 		<?php require "_header.php";?>
 		<?php require "Controller.php";?>
 		<main>
+<<<<<<< HEAD
 			<h1>Accueil</h1>
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];

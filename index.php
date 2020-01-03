@@ -12,18 +12,33 @@
 
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
-				switch($page){
+			<?php
+				function index(){
+					$content = require "accueil.php";
+				}
+				function article(){
+					$content = require "article.php";
+				}
+				function articles(){
+					$content = require"articles.php";
+				}
+				function authentification(){
+					$content = require "authentification.php";
+				}
+				switch($page]){
+					case "accueil":
+						index();
+						break;
 					case "article":
-						require "article.php";
+						article();
 						break;
 					case "articles":
-						require "articles.php";
+						articles();
 						break;
 					case "authentification":
-						require "authentification.php";
+						authentification();
 						break;
 				}
-
 		<?php require "_footer.php"; ?>
 	</body>
 </html>

@@ -4,7 +4,7 @@ Options +FollowSymlinks
 RewriteEngine On
 # Réecriture de index.html vers index.php
 RewriteRule ^index\.html$ /index.php
-RewriteRule ^index\.html/([a-z]?)$ /index.html?page=$1 [L]
+RewriteRule ^/([a-z]+)\.html$ /index.php?page=$1 [L]
 
 
 

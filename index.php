@@ -9,12 +9,14 @@
 		<?php require "_header.php"; ?>
 		
 		<main>
-			<h1>Accueil</h1>
-
-			<?php
-				switch($_GET['page']){					
+			<?php									
+				switch($_GET['page']){
+					case "accueil":
+						$content = require "accueil.php";
+						break;
 					case "article":
 						$content = require "article.php";
+						
 						break;
 					case "articles":
 						$content = require"articles.php";
@@ -25,8 +27,10 @@
 				}
 
 				$content;
+				$uri = $_SERVER['REQUEST_URI'];
+				$uri_trim = trim(parse_url($uri, PHP_URL_PATH), "/");	
 			?>
-		</main>
+			</main>
 
 		<?php require "_footer.php"; ?>
 	</body>

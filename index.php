@@ -11,15 +11,19 @@
 		<main>
 			<?php
 				function index(){
+					require 'accueilController.php';
 					$content = require "accueil.php";
 				}
 				function article(){
+					require 'articleController.php';
 					$content = require "article.php";
 				}
 				function articles(){
+					require 'articlesController.php';
 					$content = require"articles.php";
 				}
 				function authentification(){
+					require 'authentification.php';
 					$content = require "authentification.php";
 				}
 				switch($_GET['page']){

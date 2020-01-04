@@ -1,10 +1,6 @@
-# On suit les liens symboliques
-Options +FollowSymlinks
-# Activation du mot rewrite d'Apache
 RewriteEngine On
-# Réecriture de index.html vers index.php
-RewriteRule ^index\.html$ /index.php
-RewriteRule ^index\.html/([a-z]?)$ /index.html?page=$1 [L]
 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
 
-
+RewriteRule ^(.*)$ index.php [L,QSA]

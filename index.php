@@ -17,7 +17,7 @@
 						$content = require "article.php";
 						break;
 					case "articles":
-						$content = require"articles.php";
+						$content = require "articles.php";
 						break;
 					case "authentification":
 						$content = require "authentification.php";

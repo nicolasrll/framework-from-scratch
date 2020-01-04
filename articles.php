@@ -1,16 +1,2 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="UTF-8">
-		<title>Liste des articles</title>
-	</head>
+<h1>Articles</h1>
 
-	<body>
-		
-		<main>
-			<h1>Articles</h1>		
-		</main>
-
-	</body>
-
-</html> 

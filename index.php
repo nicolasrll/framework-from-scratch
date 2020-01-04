@@ -6,24 +6,29 @@
 	</head>
 
 	<body>
-		<header>
-			<nav>
-				<ul>
-					<li><a href="index.php">Accueil</a></li>
-					<li><a href="authentification.php">Inscription/Connexion</a></li>
-					<li><a href="articles.php">Articles</a></li>
-					<li><a href="article.php">Article</a></li>
-				</ul>
-			</nav>		
-		</header>
+		<?php require "_header.php"; ?>
 		
 		<main>
 			<h1>Accueil</h1>
+
+			<?php
+				switch($_GET['page']){					
+					case "article":
+						$content = require "article.php";
+						break;
+					case "articles":
+						$content = require "articles.php";
+						break;
+					case "authentification":
+						$content = require "authentification.php";
+						break;
+				}
+
+				$content;
+			?>
 		</main>
 
-		<footer>
-			© - 2019 - Nicolas Rellier - Site de démo
-		</footer>
+		<?php require "_footer.php"; ?>
 	</body>
 
 </html> 

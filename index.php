@@ -9,7 +9,10 @@
 		<main>
 			<h1>Accueil</h1>
 			<?php
-				switch($_GET['page']){
+
+				$uri = $_SERVER['REQUEST_URI'];
+				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
+				switch($page){
 					case "article":
 						require "article.php";
 						break;
@@ -20,6 +23,7 @@
 						require "authentification.php";
 						break;
 				}
+
 			?>
 		</main>
 		<?php require "_footer.php"; ?>

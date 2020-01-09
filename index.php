@@ -5,15 +5,14 @@
 		<title>Accueil</title>
 	</head>
 	<body>
-		<?php require "_header.php"; ?>
+		<?php require "_header.php";?>
+		<?php require "Controller.php";?>
 		<main>
 			<h1>Accueil</h1>
 			<?php
-
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
-			<?php
-				switch($page]){
+				switch($page){
 					case "accueil":
 						index();
 						break;
@@ -27,6 +26,7 @@
 						authentification();
 						break;
 				}
+			?>
 		<?php require "_footer.php"; ?>
 	</body>
 </html>

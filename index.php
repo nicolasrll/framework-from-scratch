@@ -12,8 +12,10 @@
 			<?php
 
 				$uri = $_SERVER['REQUEST_URI'];
+				//$uri = explode('/', $_SERVER['REQUEST_URI']);
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
-				switch($page){
+				$page = explode('/', $_SERVER['REQUEST_URI']);
+				switch($page[1]){
 					case "article":
 						article();
 						break;

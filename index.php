@@ -13,18 +13,6 @@
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
 			<?php
-				function index(){
-					$content = require "accueil.php";
-				}
-				function article(){
-					$content = require "article.php";
-				}
-				function articles(){
-					$content = require"articles.php";
-				}
-				function authentification(){
-					$content = require "authentification.php";
-				}
 				switch($page]){
 					case "accueil":
 						index();

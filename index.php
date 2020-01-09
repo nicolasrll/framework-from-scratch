@@ -5,27 +5,27 @@
 		<title>Accueil</title>
 	</head>
 	<body>
-		<?php require "_header.php"; ?>
+		<?php require "_header.php";?>
+		<?php require "Controller.php";?>
 		<main>
 			<h1>Accueil</h1>
 			<?php
-
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
 				switch($page){
+					case "accueil":
+						index();
+						break;
 					case "article":
-						require "article.php";
+						article();
 						break;
 					case "articles":
-						require "articles.php";
+						articles();
 						break;
 					case "authentification":
-						require "authentification.php";
+						authentification();
 						break;
 				}
-
-			?>
-		</main>
-		<?php require "_footer.php"; ?>
+			require "_footer.php"; ?>
 	</body>
 </html>

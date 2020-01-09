@@ -1,10 +1,10 @@
 <header>
 	<nav>
 		<ul>
-			<li><a href="/">Accueil</a></li>
-			<li><a href="/authentification">Inscription/Connexion</a></li>
-			<li><a href="/articles">Articles</a></li>
-			<li><a href="/article">Article</a></li>
+			<li><a href="/voir">Accueil</a></li>
+			<li><a href="/authentification/voir">Inscription/Connexion</a></li>
+			<li><a href="/articles/voir">Articles</a></li>
+			<li><a href="/article/voir">Article</a></li>
 		</ul>
 	</nav>
 </header>

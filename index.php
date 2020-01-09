@@ -10,6 +10,7 @@
 		<main>
 			<h1>Accueil</h1>
 			<?php
+
 				$uri = $_SERVER['REQUEST_URI'];
 				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
 				switch($page){

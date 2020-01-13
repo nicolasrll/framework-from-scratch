@@ -6,26 +6,73 @@
 	</head>
 	<body>
 		<?php require "_header.php";?>
-		<?php require "Controller.php";?>
 		<main>
 			<h1>Accueil</h1>
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
-				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
-				switch($page){
+				$uri = explode("/", $uri);
+				$controller =  $uri[1];
+				$action = $uri[2];
+				//echo $controller." ".$action;
+				switch($controller){
 					case "accueil":
-						index();
+						require "Controllers/AccueilController.php";
+						$accueilController = new AccueilController;
+						switch($action){
+							case 'see':
+								$accueilController->see();
+								break;
+							/*
+							case 'delete':
+								$accueilController->delete();
+								break;
+							*/
+						}
 						break;
 					case "article":
-						article();
+						require "Controllers/ArticleController.php";
+						$articleController = new ArticleController;
+						switch($action){
+							case 'see':
+								$articleController->see();
+								break;
+							/*
+							case 'delete':
+								$articleController->delete();
+								break;
+							*/
+						}
 						break;
 					case "articles":
-						articles();
+						require "Controllers/ArticlesController.php";
+						$articlesController = new ArticlesController;
+						switch($action){
+							case 'see':
+								$articlesController->see();
+								break;
+							/*
+							case 'delete':
+								$articlesController->delete();
+								break;
+							*/
+						}
 						break;
 					case "authentification":
-						authentification();
+						require "Controllers/AuthentificationController.php";
+						$AuthentificationController = new AuthentificationController;
+						switch($action){
+							case 'see':
+								$AuthentificationController->see();
+								break;
+							/*
+							case 'delete':
+								$AuthentificationController->delete();
+								break;
+							*/
+						}
 						break;
 				}
 			require "_footer.php"; ?>
+		</main>
 	</body>
 </html>

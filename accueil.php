@@ -5,9 +5,9 @@
 		<title>Accueil</title>
 	</head>
 
-	<body>		
+	<body>
 		<main>
 			<h1>Accueil</h1>
 		</main>
 	</body>
-</html> 
+</html>

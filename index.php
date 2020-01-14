@@ -10,10 +10,10 @@
 			<h1>Accueil</h1>
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
+				$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
 				$uri = explode("/", $uri);
-				$controller =  $uri[1];
-				$action = $uri[2];
-				//echo $controller." ".$action;
+				$controller =  $uri[0];
+				$action = $uri[1];
 				switch($controller){
 					case "accueil":
 						require "Controllers/AccueilController.php";

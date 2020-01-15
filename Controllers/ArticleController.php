@@ -1,15 +1,7 @@
 <?php
 
 class ArticleController{
-    public function see(){
+    public function index(){
         require "article.php";
-    }
-
-    public function delete(){
-        // Code here
-    }
-
-    public function edit(){
-        // Code here
     }
 }

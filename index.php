@@ -18,58 +18,22 @@
 					case "accueil":
 						require "Controllers/AccueilController.php";
 						$accueilController = new AccueilController;
-						switch($action){
-							case 'see':
-								$accueilController->see();
-								break;
-							/*
-							case 'delete':
-								$accueilController->delete();
-								break;
-							*/
-						}
+						$accueilController->index();
 						break;
 					case "article":
 						require "Controllers/ArticleController.php";
 						$articleController = new ArticleController;
-						switch($action){
-							case 'see':
-								$articleController->see();
-								break;
-							/*
-							case 'delete':
-								$articleController->delete();
-								break;
-							*/
-						}
+						$articleController->index();
 						break;
 					case "articles":
 						require "Controllers/ArticlesController.php";
 						$articlesController = new ArticlesController;
-						switch($action){
-							case 'see':
-								$articlesController->see();
-								break;
-							/*
-							case 'delete':
-								$articlesController->delete();
-								break;
-							*/
-						}
+						$articlesController->index();
 						break;
 					case "authentification":
 						require "Controllers/AuthentificationController.php";
-						$AuthentificationController = new AuthentificationController;
-						switch($action){
-							case 'see':
-								$AuthentificationController->see();
-								break;
-							/*
-							case 'delete':
-								$AuthentificationController->delete();
-								break;
-							*/
-						}
+						$authentificationController = new AuthentificationController;
+						$authentificationController->index();
 						break;
 				}
 			require "_footer.php"; ?>

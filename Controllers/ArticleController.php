@@ -1,7 +1,9 @@
 <?php
 
-class ArticleController{
-    public function index(){
+class ArticleController
+{
+    public function index()
+    {
         require "article.php";
     }
 }

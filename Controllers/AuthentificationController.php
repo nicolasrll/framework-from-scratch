@@ -1,7 +1,9 @@
 <?php
 
-class AuthentificationController{
-    public function index(){
+class AuthentificationController
+{
+    public function index()
+    {
         require "authentification.php";
     }
 }

@@ -1,15 +1,7 @@
 <?php
 
 class AuthentificationController{
-    public function see(){
+    public function index(){
         require "authentification.php";
-    }
-
-    public function delete(){
-        // Code here
-    }
-
-    public function edit(){
-        // Code here
     }
 }

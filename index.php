@@ -11,14 +11,14 @@
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
 
+
 				if(isset($uri)){
 					$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
 					$uri = explode("/", $uri);
 				}
 				if(isset($uri[0])){
 					$controller =  $uri[0];
-        }
-      
+				}
 				require "Controllers/DefaultController.php";
 				switch($controller){
 					case "accueil":
@@ -42,9 +42,9 @@
 						$authentificationController->indexAction();
 						break;
 				}
-   
-			require "_footer.php"; 
-      ?>
+
+			require "_footer.php";
+			?>
 		</main>
 	</body>
 </html>

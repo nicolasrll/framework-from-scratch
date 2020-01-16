@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!--<!DOCTYPE html>
 <html>
 	<head>
 		<meta charset="UTF-8">
@@ -8,6 +8,7 @@
 		<?php require "_header.php";?>
 		<main>
 			<h1>Accueil</h1>
+-->
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
 
@@ -42,9 +43,12 @@
 						$authentificationController->indexAction();
 						break;
 				}
+/*
+				$title;
+			require "_footer.php"; */?>
 
-			require "_footer.php";
-			?>
+<!--
 		</main>
 	</body>
 </html>
+-->

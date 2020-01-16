@@ -6,26 +6,38 @@
 	</head>
 	<body>
 		<?php require "_header.php";?>
-		<?php require "Controller.php";?>
 		<main>
 			<h1>Accueil</h1>
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
-				$page = trim(parse_url($uri, PHP_URL_PATH), "/");
-				switch($page){
+				$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
+				$uri = explode("/", $uri);
+				if(empty($uri[0])){
+					$controller =  $uri[0];
+				}
+				switch($controller){
 					case "accueil":
-						index();
+						require "Controllers/AccueilController.php";
+						$accueilController = new AccueilController();
+						$accueilController->index();
 						break;
 					case "article":
-						article();
+						require "Controllers/ArticleController.php";
+						$articleController = new ArticleController();
+						$articleController->index();
 						break;
 					case "articles":
-						articles();
+						require "Controllers/ArticlesController.php";
+						$articlesController = new ArticlesController();
+						$articlesController->index();
 						break;
 					case "authentification":
-						authentification();
+						require "Controllers/AuthentificationController.php";
+						$authentificationController = new AuthentificationController();
+						$authentificationController->index();
 						break;
 				}
 			require "_footer.php"; ?>
+		</main>
 	</body>
 </html>

@@ -1,9 +1,10 @@
 <?php
 
-class AccueilController
+class AccueilController extends DefaultController
 {
-    public function index()
+
+    public function indexAction()
     {
-        require "accueil.php";
+        $this->renderView('accueil');
     }
 }

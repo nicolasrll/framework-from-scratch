@@ -2,5 +2,10 @@
 
 abstract class DefaultController
 {
-    abstract protected function index();
+    abstract protected function indexAction();
+
+    protected function renderView($page)
+    {
+        require $page.'.php';
+    }
 }

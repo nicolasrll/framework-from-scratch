@@ -20,22 +20,22 @@
 					case "accueil":
 						require "Controllers/AccueilController.php";
 						$accueilController = new AccueilController();
-						$accueilController->index();
+						$accueilController->indexAction();
 						break;
 					case "article":
 						require "Controllers/ArticleController.php";
 						$articleController = new ArticleController();
-						$articleController->index();
+						$articleController->indexAction();
 						break;
 					case "articles":
 						require "Controllers/ArticlesController.php";
 						$articlesController = new ArticlesController();
-						$articlesController->index();
+						$articlesController->indexAction();
 						break;
 					case "authentification":
 						require "Controllers/AuthentificationController.php";
 						$authentificationController = new AuthentificationController();
-						$authentificationController->index();
+						$authentificationController->indexAction();
 						break;
 				}
 			require "_footer.php"; ?>

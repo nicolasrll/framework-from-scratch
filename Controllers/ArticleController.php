@@ -1,9 +1,9 @@
 <?php
 
-class ArticleController
+class ArticleController extends DefaultController
 {
-    public function index()
+    public function indexAction()
     {
-        require "article.php";
+        $this->renderView('article');
     }
 }

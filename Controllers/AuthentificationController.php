@@ -1,9 +1,9 @@
 <?php
 
-class AuthentificationController
+class AuthentificationController extends DefaultController
 {
-    public function index()
+    public function indexAction()
     {
-        require "authentification.php";
+        $this->renderView('authentification');
     }
 }

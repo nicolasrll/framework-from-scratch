@@ -29,6 +29,7 @@
 					case "article":
 						require "Controllers/ArticleController.php";
 						$articleController = new ArticleController();
+
 						$articleController->indexAction();
 						break;
 					case "articles":

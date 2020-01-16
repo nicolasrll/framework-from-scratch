@@ -10,8 +10,10 @@
 			<h1>Accueil</h1>
 			<?php
 				$uri = $_SERVER['REQUEST_URI'];
-				$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
-				$uri = explode("/", $uri);
+				if(isset($uri)){
+					$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
+					$uri = explode("/", $uri);
+				}
 				if(isset($uri[0])){
 					$controller =  $uri[0];
 				}

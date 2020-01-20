@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Accueil</title>
+        <title><?= $titlePage; ?></title>
     </head>
     <body>
         <?php require "_header.php";?>

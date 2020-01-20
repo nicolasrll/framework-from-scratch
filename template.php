@@ -7,10 +7,8 @@
     <body>
         <?php require "_header.php";?>
         <main>
-            <?php
-                $title;
-                require "_footer.php";
-            ?>
+            <h1><?= $titlePage; ?></h1>
+            <?php require "_footer.php";?>
         </main>
     </body>
 </html>

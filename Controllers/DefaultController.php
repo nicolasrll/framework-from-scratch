@@ -9,7 +9,6 @@ abstract class DefaultController
         ob_start();
         $titlePage = $title;
         require 'template.php';
-        $content = ob_get_clean();
-        echo $content;
+        echo ob_get_clean();
     }
 }

@@ -2,8 +2,8 @@
 
 class ArticleController extends DefaultController
 {
-    public function indexAction()
+    public function indexAction($loader)
     {
-        $this->renderView('Article');
+        $this->renderView('Article', $loader);
     }
 }

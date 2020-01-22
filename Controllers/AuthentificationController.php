@@ -2,8 +2,8 @@
 
 class AuthentificationController extends DefaultController
 {
-    public function indexAction()
+    public function indexAction($loader)
     {
-        $this->renderView('Authentification');
+        $this->renderView('Authentification', $loader);
     }
 }

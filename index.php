@@ -3,8 +3,8 @@
 	$loader = new \Twig\Loader\FilesystemLoader('views/');
 	$twig = new \Twig\Environment($loader);
 
-	$uri = $_SERVER['REQUEST_URI'];
 
+	$uri = $_SERVER['REQUEST_URI'];
 
 	if(isset($uri)){
 		$uri = trim(parse_url($uri, PHP_URL_PATH), "/");
@@ -17,21 +17,21 @@
 		case "":
 			require "Controllers/AccueilController.php";
 			$accueilController = new AccueilController();
-			$accueilController->indexAction();
+			$accueilController->indexAction($loader);
 			break;
 		case "article":
 			require "Controllers/ArticleController.php";
 			$articleController = new ArticleController();
-			$articleController->indexAction();
+			$articleController->indexAction($loader);
 			break;
 		case "articles":
 			require "Controllers/ArticlesController.php";
 			$articlesController = new ArticlesController();
-			$articlesController->indexAction();
+			$articlesController->indexAction($loader);
 			break;
 		case "authentification":
 			require "Controllers/AuthentificationController.php";
 			$authentificationController = new AuthentificationController();
-			$authentificationController->indexAction();
+			$authentificationController->indexAction($loader);
 			break;
 	}

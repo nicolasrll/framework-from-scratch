@@ -2,8 +2,8 @@
 
 class AccueilController extends DefaultController
 {
-    public function indexAction()
+    public function indexAction($loader)
     {
-        $this->renderView('Accueil');
+        $this->renderView('Accueil', $loader);
     }
 }

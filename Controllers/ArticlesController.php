@@ -4,6 +4,11 @@ class ArticlesController extends DefaultController
 {
     public function indexAction()
     {
-        $this->renderView('Articles');
+        $this->renderView(
+            'articles.html.twig',
+            [
+                'titlePage' => 'Articles'
+            ]
+        );
     }
 }

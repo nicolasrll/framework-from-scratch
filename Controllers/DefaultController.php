@@ -4,10 +4,10 @@ abstract class DefaultController
 {
     abstract protected function indexAction();
 
-    protected function renderView($titlePage)
+    protected function renderView($view, array $params = [])
     {
-        ob_start();
-        require 'template.php';
-        echo ob_get_clean();
+        global $twig;
+
+        echo $twig->render($view, $params);
     }
 }

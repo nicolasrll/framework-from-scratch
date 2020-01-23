@@ -4,6 +4,6 @@ class AuthentificationController extends DefaultController
 {
     public function indexAction($loader)
     {
-        $this->renderView('Authentification', $loader);
+        $this->renderView('Authentification', $loader, 'authentification.html.twig');
     }
 }

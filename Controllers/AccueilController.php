@@ -4,6 +4,6 @@ class AccueilController extends DefaultController
 {
     public function indexAction($loader)
     {
-        $this->renderView('Accueil', $loader);
+        $this->renderView('Accueil', $loader, 'accueil.html.twig');
     }
 }

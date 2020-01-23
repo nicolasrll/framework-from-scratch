@@ -2,11 +2,12 @@
 
 abstract class DefaultController
 {
-    abstract protected function indexAction($loader);
+    abstract protected function indexAction();
 
-    protected function renderView($title, $loader, $page)
+    protected function renderView($view, array $params = [])
     {
         global $twig;
-        echo $twig->render($page, ['titlePage' => $title]);
+
+        echo $twig->render($view, $params);
     }
 }

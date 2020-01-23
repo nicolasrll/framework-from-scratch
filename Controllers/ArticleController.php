@@ -2,8 +2,13 @@
 
 class ArticleController extends DefaultController
 {
-    public function indexAction($loader)
+    public function indexAction()
     {
-        $this->renderView('Article', $loader, 'article.html.twig');
+        $this->renderView(
+            'article.html.twig',
+            [
+                'titlePage' => 'Article'
+            ]
+        );
     }
 }

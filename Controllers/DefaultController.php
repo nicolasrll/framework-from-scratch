@@ -6,8 +6,7 @@ abstract class DefaultController
 
     protected function renderView($title, $loader)
     {
-        $twig = new \Twig\Environment($loader);
-        $template = $twig->load('template.php');
-        echo $template->render(['titlePage' => $title]);
+        global $twig;
+        echo $twig->render('template.php', ['titlePage' => $title]);
     }
 }

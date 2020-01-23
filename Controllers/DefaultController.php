@@ -4,8 +4,10 @@ abstract class DefaultController
 {
     abstract protected function indexAction();
 
-    protected function renderView($page)
+    protected function renderView($titlePage)
     {
-        require $page.'.php';
+        ob_start();
+        require 'template.php';
+        echo ob_get_clean();
     }
 }

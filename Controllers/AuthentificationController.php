@@ -11,4 +11,12 @@ class AuthentificationController extends DefaultController
             ]
         );
     }
+
+    public function voirAction()
+    {
+        require_once './Request.php';
+        $request = new Request();
+        $articleId = $request->getParam('articleId');
+        echo $articleId;
+    }
 }

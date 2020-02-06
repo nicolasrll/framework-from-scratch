@@ -9,7 +9,6 @@ abstract class DefaultController
         require_once 'vendor/autoload.php';
         $loader = new \Twig\Loader\FilesystemLoader('views/');
         $twig = new \Twig\Environment($loader);
-        $twig;
 
         echo $twig->render($view, $params);
     }

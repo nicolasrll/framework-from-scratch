@@ -2,32 +2,34 @@
 
 class Request
 {
-    public function getPostParam($article)
+    public function getPostParam($article, $result = null)
     {
-        if (!isset($_POST[$article])) {
-            return;
+        if (isset($_POST[$article]) && $_POST[$article] != '') {
+            $result = $_POST[$article];
         }
-        return $_POST[$article];
+
+        return $result;
     }
 
-    public function getGetParam($article)
+    public function getGetParam($article, $result = null)
     {
-        if (!isset($_GET[$article])) {
-            return null;
+        if (isset($_GET[$article]) && $_GET[$article] != '') {
+            $result = $_GET[$article];
         }
 
-        return $_GET[$article];
+        return $result;
     }
 
     // appel getGetPara et getPostParam
-    public function getParam($article)
+    public function getParam(string $article, $result = 7)
     {
         $post = $this->getPostParam($article);
-        if(!isset($post)) {
-            $get = $this->getGetParam($article);
-            return $get;
+        if(isset($post)) {
+            $result = $post;
+        } else {
+            $result = $this->getGetParam($article);
         }
-        return $post;
 
+        return $result;
     }
 }

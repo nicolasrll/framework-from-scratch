@@ -16,7 +16,6 @@ class ArticleController extends DefaultController
     {
         require_once './Request.php';
         $request = new Request();
-        $articleId = $request->getParam('articleId');
-        echo $articleId;
+        $article = $request->getParam('articleId');
     }
 }

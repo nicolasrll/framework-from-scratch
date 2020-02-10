@@ -36,7 +36,6 @@ try {
             throw new Exception('Aucun controller trouvé.');
     }
 
-    $controller->voirAction();
     $controller->indexAction();
 
 } catch (Exception $e) {

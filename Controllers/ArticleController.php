@@ -10,9 +10,11 @@ class ArticleController extends DefaultController
                 'titlePage' => 'Article'
             ]
         );
+
+        //$this->voir();
     }
 
-    public function voirAction()
+    public function voir()
     {
         require_once './Request.php';
         echo (new Request())->getParam('articleId', 'Article');

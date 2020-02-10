@@ -15,8 +15,6 @@ class AuthentificationController extends DefaultController
     public function voirAction()
     {
         require_once './Request.php';
-        $request = new Request();
-        $authentification = $request->getParam('authentificationId');
-        echo $authentification;
+        echo (new Request())->getParam('authentificationId', 'Authentification');
     }
 }

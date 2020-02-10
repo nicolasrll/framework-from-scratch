@@ -15,8 +15,6 @@ class ArticlesController extends DefaultController
     public function voirAction()
     {
         require_once './Request.php';
-        $request = new Request();
-        $articles = $request->getParam('articlesId');
-        echo $articles;
+        echo (new Request())->getParam('articlesId', 'Articles');
     }
 }

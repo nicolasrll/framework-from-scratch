@@ -1,11 +1,21 @@
 <?php
 
+/**
+ * Used to retrieve controllerName and actionName in request
+ *
+ * @author Nicolas Rellier <nicolasrellier@yahoo.fr>
+ */
+
 class Router
 {
     private $request;
     private $controllerName = '';
     private $actionName = '';
 
+    /**
+     * initialize $request with object passed in parameter,
+     * $controllerName and $actionName with url exploded
+     */
     public function __construct(Request $request)
     {
         $this->setRequest($request);

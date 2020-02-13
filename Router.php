@@ -6,9 +6,9 @@ class Router
     private $controllerName = '';
     private $actionName = '';
 
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->setRequest(new Request());
+        $this->setRequest($request);
         $this->setControllerName($this->request->getUrlExplodedByIndex(0));
         $this->setActionName($this->request->getUrlExplodedByIndex(1));
     }
@@ -18,9 +18,9 @@ class Router
         return $this->request;
     }
 
-    public function setRequest(Request $arg)
+    public function setRequest(Request $request)
     {
-        $this->request = $arg;
+        $this->request = $request;
     }
 
     public function getControllerName(): ?string

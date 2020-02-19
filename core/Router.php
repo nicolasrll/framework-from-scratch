@@ -19,11 +19,11 @@ class Router
     public function __construct(Request $request)
     {
         $this->setRequest($request);
-        $this->setControllerName($this->request->getUrlExplodedByIndex(0));
+        $this->setControllerName($this->getRequest()->getUrlExplodedByIndex(0));
         $this->setActionName($this->request->getUrlExplodedByIndex(1));
     }
 
-    public function getRequest(): ?Request
+    public function getRequest(): Request
     {
         return $this->request;
     }
@@ -33,31 +33,29 @@ class Router
         $this->request = $request;
     }
 
-    public function getControllerName(): ?string
+    public function getControllerName(): string
     {
         return $this->controllerName;
     }
 
     public function setControllerName(string $controller = null)
     {
-        $this->controllerName = 'articles';
-
+        $this->controllerName = ucfirst('articles').'Controller';
         if (null != $controller) {
-            $this->controllerName = $controller;
+            $this->controllerName = ucfirst($controller).'Controller';
         }
     }
 
-    public function getActionName(): ?string
+    public function getActionName(): string
     {
         return $this->actionName;
     }
 
     public function setActionName(string $action = null)
     {
-        $this->actionName = 'index';
-
+        $this->actionName = 'indexAction';
         if (null != $action) {
-            $this->actionName = $action;
+            $this->actionName = $action.'Action';
         }
     }
 }

@@ -9,18 +9,42 @@
 class Router
 {
     private $request;
-    private $controllerName = '';
-    private $actionName = '';
+    private $controllerName = 'AccueilController';
+    private $actionName = 'indexAction';
+    const CONTROLLER_POSITION = 0;
+    const ACTION_POSITION = 1;
 
     /**
      * initialize $request with object passed in parameter,
      * $controllerName and $actionName with url exploded
+     *
+     * Exemple:
+     *     monsite.fr/article/voir
+     *
+     *     new Router() = {
+     *         controllerName : 'ArticleController'
+     *         actionName : 'voirAction'
+     *     }
+     *
+     *     monsite.fr/article
+     *     new Router() = {
+     *         controllerName : 'ArticleController'
+     *         actionName : 'indexAction'
+     *     }
+     *
+     *     monsite.fr/
+     *     new Router() = {
+     *         controllerName : 'AccueilController'
+     *         actionName : 'indexAction'
+     *     }
      */
-    public function __construct(Request $request)
+    public function __construct()
     {
-        $this->setRequest($request);
-        $this->setControllerName($this->getRequest()->getUrlExplodedByIndex(0));
-        $this->setActionName($this->request->getUrlExplodedByIndex(1));
+        $this->setRequest(new Request());
+        $controllerName = $this->getRequest()->getUrlExplodedByIndex(self::CONTROLLER_POSITION) ?? 'Accueil';
+        $actionName = $this->getRequest()->getUrlExplodedByIndex(self::ACTION_POSITION) ?? 'index';
+        $this->setControllerName($controllerName);
+        $this->setActionName($actionName);
     }
 
     public function getRequest(): Request
@@ -38,11 +62,10 @@ class Router
         return $this->controllerName;
     }
 
-    public function setControllerName(string $controller = null)
+    public function setControllerName(string $controllerName)
     {
-        $this->controllerName = ucfirst('articles').'Controller';
-        if (null != $controller) {
-            $this->controllerName = ucfirst($controller).'Controller';
+        if (!empty($controllerName)) {
+            $this->controllerName = ucfirst($controllerName).'Controller';
         }
     }
 
@@ -51,11 +74,10 @@ class Router
         return $this->actionName;
     }
 
-    public function setActionName(string $action = null)
+    public function setActionName(string $actionName)
     {
-        $this->actionName = 'indexAction';
-        if (null != $action) {
-            $this->actionName = $action.'Action';
+        if (!empty($actionName)) {
+            $this->actionName = $actionName . 'Action';
         }
     }
 }

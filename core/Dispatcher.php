@@ -6,17 +6,37 @@
 
 class Dispatcher
 {
-    private $router;
+    private $router = null;
     private $controllerPath = '';
-    private $controller;
-    private  $controllerName;
+    private $controller = null;
 
     /**
      * Initialize property router and controllerPath
+     *
+     * Exemple:
+     *     monsite.fr/article/voir
+     *
+     *     new Router() = {
+     *         controllerPath : 'Controllers/ArticleController.php'
+     *         controller : object(ArticleController)
+     *     }
+     *
+     *     monsite.fr/article
+     *     new Router() = {
+     *         controllerPath : 'Controllers/ArticleController.php'
+     *         controller : object(ArticleController)
+     *     }
+     *
+     *     monsite.fr/
+     *     new Router() = {
+     *         controllerPath : 'Controllers/AccueilController.php'
+     *         controller : object(ArticleController)
+     *     }
      */
-    public function __construct(Router $router)
+    public function __construct()
     {
-        $this->setRouter($router);
+        //$this->setRouter($router);
+        $this->setRouter(new Router($request));
         $this->setControllerPath($this->getRouter()->getControllerName());
     }
 
@@ -51,9 +71,9 @@ class Dispatcher
      * Setter for controllerPath
      * @param string Controller name
      */
-    public function setControllerPath(string $controllerName)
+    public function setControllerPath(string $controllerPath)
     {
-        $this->controllerPath = 'Controllers/'.ucfirst($controllerName).'.php';
+        $this->controllerPath = 'Controllers/'.ucfirst($controllerPath).'.php';
     }
 
     /**
@@ -67,22 +87,21 @@ class Dispatcher
     /**
      * Setter for controller instance
      */
-    public function setController($controllerName)
+    public function setController($controller)
     {
-        $this->controller = new $controllerName;
+        $this->controller = new $controller;
     }
 
     /**
      * Check if controller file exist, include it and call the function action
      */
-    public function dispatch()
+    public function dispatch(): void
     {
         if (!file_exists($this->getControllerPath()))
         {
             throw new Exception('Le controller recherché n\'existe pas');
         }
 
-        require_once('Controllers/DefaultController.php');
         require_once($this->getControllerPath());
 
         $this->setController($this->getRouter()->getControllerName());
@@ -92,6 +111,6 @@ class Dispatcher
             throw new Exception('L\'action demandé n\'est pas disponible');
         }
 
-        call_user_func(array($this->getController() , $this->router->getActionName()));
+        call_user_func([$this->getController() , $this->router->getActionName()]);
     }
 }

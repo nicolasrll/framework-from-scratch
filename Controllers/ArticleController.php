@@ -1,5 +1,7 @@
 <?php
 
+require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
+
 class ArticleController extends DefaultController
 {
     public function indexAction()
@@ -16,7 +18,7 @@ class ArticleController extends DefaultController
 
     public function voir()
     {
-        require_once './Request.php';
+        require_once (PROJECT_ROOT_PATH . '/core/Request.php');
         echo (new Request())->getParam('articleId', 'Article');
     }
 }

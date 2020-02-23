@@ -4,11 +4,9 @@ try {
     require_once('core/Router.php');
     require_once('core/Dispatcher.php');
 
-    $request = new Request();
+    define('PROJECT_ROOT_PATH', dirname(__FILE__));
 
-    $router = new Router($request);
-
-    $dispatcher = new Dispatcher($router);
+    $dispatcher = new Dispatcher();
     $dispatcher->dispatch();
 } catch (Exception $e) {
     echo 'Exception reçue : ' . $e->getMessage();

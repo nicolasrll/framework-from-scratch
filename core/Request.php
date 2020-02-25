@@ -1,15 +1,16 @@
 <?php
+
 namespace Core;
 
 /**
  * Used to model the http query
  * @author Nicolas Rellier <nicolasrellier@yahoo.fr>
  */
-
 class Request
 {
     private $url = '';
     private $urlExploded = [];
+    private static $instance = null;
 
     /**
      * Retrieve the url and clean it before isole elements in array
@@ -38,10 +39,18 @@ class Request
      *         urlExploded: [];
      *     }
      */
-    public function __construct()
+    private function __construct()
     {
         $this->setUrl($_SERVER['REQUEST_URI'] ?? '');
         $this->setUrlExploded($this->explodeUrl($this->getUrl()));
+    }
+
+    public static function getInstance()
+    {
+        if (is_null(self::$instance)) {
+            self::$instance = new Request();
+        }
+        return self::$instance;
     }
 
     /**

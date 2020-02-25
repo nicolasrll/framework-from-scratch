@@ -1,4 +1,5 @@
 <?php
+
 namespace Core;
 
 /**
@@ -6,7 +7,6 @@ namespace Core;
  *
  * @author Nicolas Rellier <nicolasrellier@yahoo.fr>
  */
-
 class Router
 {
     private $request;
@@ -41,7 +41,7 @@ class Router
      */
     public function __construct()
     {
-        $this->setRequest(new Request());
+        $this->setRequest(Request::getInstance());
         $controllerName = $this->getRequest()->getUrlExplodedByIndex(self::CONTROLLER_POSITION) ?? 'Accueil';
         $actionName = $this->getRequest()->getUrlExplodedByIndex(self::ACTION_POSITION) ?? 'index';
         $this->setControllerName($controllerName);

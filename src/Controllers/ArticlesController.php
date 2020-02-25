@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Controllers;
 
-require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
+use Core\DefaultController;
 
-class ArticlesController extends \core\DefaultController
+class ArticlesController extends DefaultController
 {
     public function indexAction()
     {

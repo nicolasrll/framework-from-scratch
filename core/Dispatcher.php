@@ -1,10 +1,10 @@
 <?php
+
 namespace Core;
 
 /**
  * Used to execute the action in the asssociated controller
  */
-
 class Dispatcher
 {
     private $router = null;
@@ -36,8 +36,8 @@ class Dispatcher
      */
     public function __construct()
     {
-        $this->setRouter(new Router($request));
-        $this->setControllerPath($this->getRouter()->getControllerName());
+    	$this->router = new Router();
+	    $this->controllerPath = 'src/Controllers/' . ucfirst($this->router->getControllerName()) . '.php';
     }
 
     /**
@@ -65,15 +65,6 @@ class Dispatcher
     public function getControllerPath(): string
     {
         return $this->controllerPath;
-    }
-
-    /**
-     * Setter for controllerPath
-     * @param string Controller name
-     */
-    public function setControllerPath(string $controllerPath)
-    {
-        $this->controllerPath = 'src/Controllers/'.ucfirst($controllerPath).'.php';
     }
 
     /**

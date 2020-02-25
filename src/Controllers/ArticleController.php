@@ -1,9 +1,11 @@
 <?php
+
 namespace App\Controllers;
 
-require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
+use Core\DefaultController;
+use Core\Request;
 
-class ArticleController extends \core\DefaultController
+class ArticleController extends DefaultController
 {
     public function indexAction()
     {
@@ -20,6 +22,6 @@ class ArticleController extends \core\DefaultController
     public function voir()
     {
         require_once (PROJECT_ROOT_PATH . '/core/Request.php');
-        echo (new \core\Request())->getParam('articleId', 'Article');
+        echo (Request::getInstance())->getParam('articleId', 'Article');
     }
 }

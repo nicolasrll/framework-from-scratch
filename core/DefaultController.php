@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 
 abstract class DefaultController
 {
@@ -7,7 +8,7 @@ abstract class DefaultController
     protected function renderView(string $view, array $params = [])
     {
         require_once 'vendor/autoload.php';
-        $loader = new \Twig\Loader\FilesystemLoader('views/');
+        $loader = new \Twig\Loader\FilesystemLoader('template/');
         $twig = new \Twig\Environment($loader);
 
         echo $twig->render($view, $params);

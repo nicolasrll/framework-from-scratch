@@ -1,4 +1,7 @@
 <?php
+
+use \Core\Dispatcher;
+
 try {
     require_once('core/Request.php');
     require_once('core/Router.php');

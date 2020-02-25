@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 
 /**
  * Used to model the http query
@@ -15,7 +16,6 @@ class Request
      *
      * Exemple:
      *     monsite.fr/article/voir
-     *
      *     new Request() = {
      *         url : /article/voir
      *         urlExploded : [
@@ -97,8 +97,7 @@ class Request
      */
     public function getPostParam(string $searchValue, $defaultValue = null): ?string
     {
-        return (isset($_POST[$searchValue])
-            && $_POST[$searchValue] != '')
+        return (isset($_POST[$searchValue]) && $_POST[$searchValue] != '')
             ? $_POST[$searchValue]
             : $defaultValue;
     }

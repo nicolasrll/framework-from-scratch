@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 
 /**
  * Used to execute the action in the asssociated controller
@@ -35,7 +36,6 @@ class Dispatcher
      */
     public function __construct()
     {
-        //$this->setRouter($router);
         $this->setRouter(new Router($request));
         $this->setControllerPath($this->getRouter()->getControllerName());
     }
@@ -73,7 +73,7 @@ class Dispatcher
      */
     public function setControllerPath(string $controllerPath)
     {
-        $this->controllerPath = 'Controllers/'.ucfirst($controllerPath).'.php';
+        $this->controllerPath = 'src/Controllers/'.ucfirst($controllerPath).'.php';
     }
 
     /**
@@ -89,6 +89,7 @@ class Dispatcher
      */
     public function setController($controller)
     {
+        $controller = 'App\Controllers\\'.$controller;
         $this->controller = new $controller;
     }
 
@@ -99,7 +100,7 @@ class Dispatcher
     {
         if (!file_exists($this->getControllerPath()))
         {
-            throw new Exception('Le controller recherché n\'existe pas');
+            throw new \Exception('Le controller recherché n\'existe pas');
         }
 
         require_once($this->getControllerPath());
@@ -108,7 +109,7 @@ class Dispatcher
 
         if (!method_exists($this->controller, $this->getRouter()->getActionName()))
         {
-            throw new Exception('L\'action demandé n\'est pas disponible');
+            throw new \Exception('L\'action demandé n\'est pas disponible');
         }
 
         call_user_func([$this->getController() , $this->router->getActionName()]);

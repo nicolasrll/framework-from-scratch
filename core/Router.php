@@ -1,4 +1,5 @@
 <?php
+namespace Core;
 
 /**
  * Used to retrieve controllerName and actionName in request

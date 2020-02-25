@@ -1,15 +1,16 @@
 <?php
+namespace App\Controllers;
 
 require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
 
-class AuthentificationController extends DefaultController
+class AccueilController extends \core\DefaultController
 {
     public function indexAction()
     {
         $this->renderView(
-            'authentification.html.twig',
+            'accueil.html.twig',
             [
-                'titlePage' => 'Authentification'
+                'titlePage' => 'Accueil'
             ]
         );
     }

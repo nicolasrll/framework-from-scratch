@@ -1,15 +1,16 @@
 <?php
+namespace App\Controllers;
 
 require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
 
-class AccueilController extends DefaultController
+class ArticlesController extends \core\DefaultController
 {
     public function indexAction()
     {
         $this->renderView(
-            'accueil.html.twig',
+            'articles.html.twig',
             [
-                'titlePage' => 'Accueil'
+                'titlePage' => 'Articles'
             ]
         );
     }

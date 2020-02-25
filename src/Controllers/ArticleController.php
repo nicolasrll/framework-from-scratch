@@ -17,7 +17,7 @@ class ArticleController extends \core\DefaultController
         //$this->voir();
     }
 
-    public function voirAction()
+    public function voir()
     {
         require_once (PROJECT_ROOT_PATH . '/core/Request.php');
         echo (new \core\Request())->getParam('articleId', 'Article');

@@ -1,9 +1,9 @@
 <?php
-try {
-    require_once('core/Request.php');
-    require_once('core/Router.php');
-    require_once('core/Dispatcher.php');
+require 'vendor/autoload.php';
 
+use Core\Dispatcher;
+
+try {
     define('PROJECT_ROOT_PATH', dirname(__FILE__));
 
     $dispatcher = new Dispatcher();

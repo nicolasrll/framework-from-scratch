@@ -1,6 +1,9 @@
 <?php
 
-require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
+namespace App\Controllers;
+
+use Core\DefaultController;
+use Core\Request;
 
 class ArticleController extends DefaultController
 {
@@ -19,6 +22,6 @@ class ArticleController extends DefaultController
     public function voir()
     {
         require_once (PROJECT_ROOT_PATH . '/core/Request.php');
-        echo (new Request())->getParam('articleId', 'Article');
+        echo (Request::getInstance())->getParam('articleId', 'Article');
     }
 }

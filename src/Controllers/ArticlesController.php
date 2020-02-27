@@ -1,6 +1,8 @@
 <?php
 
-require_once(PROJECT_ROOT_PATH . '/core/DefaultController.php');
+namespace App\Controllers;
+
+use Core\DefaultController;
 
 class ArticlesController extends DefaultController
 {

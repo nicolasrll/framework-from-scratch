@@ -5,19 +5,22 @@ namespace App\Entity;
 class Article
 {
     private $id = 0;
-    private $title = '';
+    public $title = '';
     private $content = '';
-    private $date_created;
 
     public function __construct($data)
     {
+        $this->id = $data['id'];
         $this->title = $data['title'];
         $this->content = $data['content'];
-        $this->date_created = $data['date_created'];
         //$this->getArticle();
 
     }
 
+    public function getAttributes()
+    {
+        return get_object_vars($this);
+    }
 
     /**
      * @return mixed
@@ -71,24 +74,6 @@ class Article
     public function setContent($content)
     {
         $this->content = $content;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDateCreated()
-    {
-        return $this->date_created;
-    }
-
-    /**
-     * @param mixed $date_created
-     *
-     * @return self
-     */
-    public function setDateCreated($date_created)
-    {
-        $this->date_created = $date_created;
     }
 
     /*

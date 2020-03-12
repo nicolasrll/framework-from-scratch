@@ -11,10 +11,7 @@ class PdoConnect
     private static $pdo = null;
     //private static $instance = null;
 
-    private function __construct()
-    {
-        $this->pdo = new \PDO('mysql:host=localhost; dbname=ffs', 'nicolas', 'Diabolo206!');
-    }
+    private function __construct() {}
 
     public static function getInstance()
     {

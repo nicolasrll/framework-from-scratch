@@ -6,6 +6,9 @@ use Core\DefaultController;
 use Core\Request;
 use Core\PdoConnect;
 use App\Repository\ArticleManager;
+use App\Repository\CommentManager;
+use App\Entity\Article;
+use App\Entity\Comment;
 
 //use App\Repository\AbstractManager;
 //use App\Entity\Article;
@@ -15,8 +18,6 @@ class ArticleController extends DefaultController
     public function indexAction()
     {
         //$articleManager = new ArticleManager(PdoConnect::getinstance());
-        $articleManager = new ArticleManager();
-        $articlesList = $articleManager->findAll();
         $this->renderView(
             'article.html.twig',
             [
@@ -33,6 +34,24 @@ class ArticleController extends DefaultController
         $idArticle = (Request::getInstance())->getParam('articleId', 'Article');
 
         $articleManager = new ArticleManager();
-        $article = $articleManager->findOne($idArticle);
+        $commentManager = new CommentManager();
+        //$article = $articleManager->findOne($idArticle);
+        //$articleManager->find($idArticle));
+        //echo '<br><br>';
+        //$commentManager->find(['article_id' => $idArticle]));
+    }
+
+    public function saveAction()
+    {
+        $entity = new Article([
+            'id' => 20,
+            'title' => 'Blabla',
+            'content' => 'L\Aerty ressemble au qwerty',
+        ]);
+        echo '<br><br>';
+        $entity = $entity->getAttributes();
+        echo '<br>CLES : <br>';
+        $articleManager = new ArticleManager();
+        $articleManager->save($entity);
     }
 }

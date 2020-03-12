@@ -8,9 +8,13 @@ use App\Entity\Comment;
 
 abstract class AbstractManager
 {
-    abstract public function getTableName();
+	public function getTableName()
+	{
+		return static::TABLE_NAME;
+	}
 
-    public function findOne(int $id)
+
+	public function findOne(int $id)
     {
 
         $pdo = PdoConnect::getInstance();
@@ -113,35 +117,38 @@ abstract class AbstractManager
 
     }
 
-    public function save($entity) {
-       // Je récupère les clés des propriétés
-       $keys = array_keys($entity);
-       // Je créer mes chaines vide qui vont me servir dans le requete préparer
-       $string1 = '';
-       $string2 = '';
-       // Je boucle dessus
-       foreach ($keys as $key) {
-           $string1 .= ' ' . $key . ',';
-           $string2 .= ' ' . ':' . $key . ',';
-       }
-       // Je supprime les virgules de fin de chaine
-       $string1 = trim($string1, ',');
-       echo '<br>';
-       echo '<br>' . $string1;
-       $string2 = trim($string2, ',');
-       // Je récupère mon instance PDO
-       $pdo = PdoConnect::getInstance();
-       // Je récupère le nom de la table appelante
-       $tableName = $this->getTableName();
-       // Je prépare ma requête
-        $request = $pdo->prepare('INSERT INTO ' . $tableName . '(' . $string1 . ') VALUES (' . $string2 . ')');
+    public function insert($entity): bool
+    {
+	    $data = $entity->convertToArray();
 
-       //foreach ($items as $kitem) {
-       for ($i = 0; $i < count($items); $i++) {
-            $request->bindValue($params[$i], $items[$i]);
-        }
-       $request->execute();
+    	if (isset($data['id'])) {
+		    unset($data['id']);
+	    }
 
+		// Je récupère les clés des propriétés
+		$keys = array_keys($data);
+		// Je créer mes chaines vide qui vont me servir dans le requete préparer
+		$columns = implode(', ', $keys);
+
+		$columnsValues = '';
+		foreach ($keys as $key) {
+			$columnsValues .= ' ' . ':' . $key . ',';
+		}
+		$columnsValues = trim($columnsValues, ',');
+
+		$pdo = PdoConnect::getInstance();
+		$tableName = $this->getTableName();
+		$sql = 'INSERT INTO ' . $tableName . '(' . $columns . ') VALUES (' . $columnsValues . ')';
+		$stmt = $pdo->prepare($sql);
+
+		foreach ($data as $column => $value) {
+			var_dump(':'. $column . ' => ' . $value);
+			$stmt->bindValue($column, $value);
+		}
+
+		$stmt->execute();
+
+		return true;
     }
 
 }

@@ -43,15 +43,15 @@ class ArticleController extends DefaultController
 
     public function saveAction()
     {
-        $entity = new Article([
-            'id' => 20,
-            'title' => 'Blabla',
-            'content' => 'L\Aerty ressemble au qwerty',
-        ]);
-        echo '<br><br>';
-        $entity = $entity->getAttributes();
-        echo '<br>CLES : <br>';
-        $articleManager = new ArticleManager();
-        $articleManager->save($entity);
+        $postData = [
+	        'id' => 20,
+	        'title' => 'Blabla',
+	        'content' => 'L\Aerty ressemble au qwerty',
+        ];
+        $article = (new Article())
+	        ->hydrate($postData);
+
+        $result = (new ArticleManager())->insert($article);
+        var_dump($result);
     }
 }

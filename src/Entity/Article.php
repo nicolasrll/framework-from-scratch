@@ -4,20 +4,20 @@ namespace App\Entity;
 
 class Article
 {
-    private $id = 0;
+    private $id;
     public $title = '';
     private $content = '';
 
-    public function __construct($data)
+    public function hydrate(array $data)
     {
-        $this->id = $data['id'];
-        $this->title = $data['title'];
-        $this->content = $data['content'];
-        //$this->getArticle();
+	    $this->id = $data['id'] ?? null;
+	    $this->title = $data['title'] ?? '';
+	    $this->content = $data['content'] ?? '';
 
+	    return $this;
     }
 
-    public function getAttributes()
+    public function convertToArray()
     {
         return get_object_vars($this);
     }

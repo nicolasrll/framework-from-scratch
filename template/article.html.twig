@@ -2,4 +2,18 @@
 {% block title%}Article{% endblock %}
 {% block content %}
     <h1>Article</h1>
+    <h2>Commenter l'article</h2>
+    <form action="/comment/save" method="post">
+    <p>
+    <label for="pseudo">Votre pseudo</label>
+    <input type="text" id="pseudo" name="pseudo">
+    </p>
+    <p>
+    <label for="comment">Commentaire</label>
+    <textarea id="comment" name="comment" rows="10" cols="50"></textarea
+    </p>
+    <p>
+    <input type="submit" value="Envoyer">
+    </p>
+    </form>
 {% endblock content %}

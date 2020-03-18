@@ -4,20 +4,32 @@ namespace App\Entity;
 
 class Comment
 {
-    //private $id = 0;
-    private $article_id = 0;
+    private $id;
+    private $article_id;
     private $pseudo = '';
     private $comment = '';
 
+    /*
     public function __construct($data)
     {
-        //$this->id = $data['id'];
-        $this->article_id = $data['article_id'];
+        $this->id = $data['id'] ?? null;
+        $this->article_id = $data['article_id'] ?? null;
         $this->pseudo = $data['pseudo'];
         $this->comment = $data['comment'];
     }
+    */
 
-    public function getAttributes()
+    public function hydrate(array $data)
+    {
+        $this->id = $data['id'] ?? null;
+        $this->article_id = $data['article_id'] ?? null;
+        $this->pseudo = $data['pseudo'];
+        $this->comment = $data['comment'];
+
+        return $this;
+    }
+
+    public function convertToArray()
     {
         return get_object_vars($this);
     }

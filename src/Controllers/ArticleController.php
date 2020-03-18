@@ -36,22 +36,48 @@ class ArticleController extends DefaultController
         $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
         //$article = $articleManager->findOne($idArticle);
-        //$articleManager->find($idArticle));
+        $article = $articleManager->find($idArticle);
         //echo '<br><br>';
         //$commentManager->find(['article_id' => $idArticle]));
     }
 
     public function saveAction()
     {
+        /*
         $entity = new Article([
-            'id' => 20,
-            'title' => 'Blabla',
-            'content' => 'L\Aerty ressemble au qwerty',
+            'title' => 'Mon titre',
+            'content' => 'Mon contenue',
         ]);
-        echo '<br><br>';
-        $entity = $entity->getAttributes();
-        echo '<br>CLES : <br>';
-        $articleManager = new ArticleManager();
-        $articleManager->save($entity);
+        */
+
+        /*
+        $entity->hydrate([
+             'title' => 'Mon titre',
+            'content' => 'Mon contenue',
+        ]);
+        */
+        $postData = [
+            'title' => $_POST['title'],
+            'content' => $_POST['content'],
+        ];
+        $article = (new Article())->hydrate($postData);
+
+        $result = (new ArticleManager())->save($article);
+    }
+
+    public function updateAction()
+    {
+        // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
+        // On instant ArticleManager
+        // Puis on appelle la méthode update
+        $postData = [
+            'id' => 25,
+            'title' => 'Une titre',
+            'content' => 'Un contenu pas comme un autre',
+        ];
+        $entity = (new Article())->hydrate($postData);
+        $articleManager = (new ArticleManager())->save($entity);;
+        //$articleManager->update($entity);
+
     }
 }

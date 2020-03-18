@@ -8,7 +8,7 @@ use App\Entity\Article;
 
 class ArticleManager extends AbstractManager
 {
-    const TABLE_NAME = 'Article';
+    const TABLE_NAME = 'article';
 
     public function getTableName()
     {

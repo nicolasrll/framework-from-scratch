@@ -11,7 +11,7 @@ class CommentManager extends AbstractManager
     /**
      *  On veut pouvoir voir un ou tous les commentaire rattaché à un article. Pour ça on utilise findOne et findAll comme Article
      */
-    const TABLE_NAME = 'Comment';
+    const TABLE_NAME = 'comment';
 
     public function getTableName()
     {

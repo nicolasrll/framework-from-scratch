@@ -85,63 +85,88 @@ abstract class AbstractManager
         return $this->findAll();
     }
 
-    //public function add(Article $article)
-    // ancienne fonction save non dynamique
-    public function add(array $args = [])
-    {
-        // Preparation de la requete
-        // Initialisation des variables avec les valeurs
-        // Exécution de la requête
-        echo '<br><br>';
+    public function add($data) {
 
-        // Je check ce que je récupère en paramètre
-        // Je récupère la connexion à la bdd
-        $pdo = PdoConnect::getInstance();
-        // On récupère le nom de la table
-        $tableName = $this->getTableName();
-        echo '<br>';
+        //$data = $entity->convertToArray();
 
-        // Préparation de la requete
-        $request = $pdo->prepare('INSERT INTO ' . $tableName . ' (title, content) VALUES (:title, :content)');
-
-        //$request->bindValue(':title', $args['title']);
-        //$request->bindValue(':content', $args['content']);
-        //$request->bindValue(':content', 'Ce travail de création a été réalisé depuis la page index');
-        //$request->bindValue(':pseudo', $args['pseudo']);
-        //$request->bindValue(':comment', $args['comment']);
-        //$request->execute();
-
-    }
-
-    public function save($entity) {
-       // Je récupère les clés des propriétés
-       $keys = array_keys($entity);
-       // Je créer mes chaines vide qui vont me servir dans le requete préparer
-       $string1 = '';
-       $string2 = '';
-       // Je boucle dessus
-       foreach ($keys as $key) {
-           $string1 .= ' ' . $key . ',';
-           $string2 .= ' ' . ':' . $key . ',';
-       }
-       // Je supprime les virgules de fin de chaine
-       $string1 = trim($string1, ',');
-       echo '<br>';
-       echo '<br>' . $string1;
-       $string2 = trim($string2, ',');
-       // Je récupère mon instance PDO
-       $pdo = PdoConnect::getInstance();
-       // Je récupère le nom de la table appelante
-       $tableName = $this->getTableName();
-       // Je prépare ma requête
-        $request = $pdo->prepare('INSERT INTO ' . $tableName . '(' . $string1 . ') VALUES (' . $string2 . ')');
-
-       //foreach ($items as $kitem) {
-       for ($i = 0; $i < count($items); $i++) {
-            $request->bindValue($params[$i], $items[$i]);
+        if (isset($data['id'])) {
+            unset($data['id']);
         }
-       $request->execute();
 
+        // Je récupère les clés des propriétés
+        $keys = array_keys($data);
+        $columns = implode(',', $keys);
+
+        // Je créer mes chaines vide qui vont me servir dans le requete préparer
+        $colmunsValues = '';
+        // Je boucle dessus
+        foreach ($keys as $key) {
+           $colmunsValues .= ' ' . ':' . $key . ',';
+        }
+        // Je supprime les virgules de fin de chaine
+        $colmunsValues = trim($colmunsValues, ',');
+
+        // Je récupère mon instance PDO
+        $pdo = PdoConnect::getInstance();
+        // Je récupère le nom de la table appelante
+        $tableName = $this->getTableName();
+        // Je prépare ma requête
+        $sql = 'INSERT INTO ' . $tableName . '(' . $columns . ') VALUES (' . $colmunsValues . ')';
+        $stmt = $pdo->prepare($sql);
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(':' . $key, $value);
+        }
+        // J'exécute
+       $stmt->execute();
+
+       return true;
     }
 
+    public function update($data){
+        // UPDATE article SET name_field1 = 'new value', name_field2 = 'new value' WHERE id = $entity->getId
+        // On boucle pour parcourir l'ensemble des champs d'un commentaire ou d'un article et lui attribuer sa nouvelle valeur (name_field1 = 'new value', ...)
+        // On stocke ça dans une variable
+        // On construit la requête en venant concaténé la variable précédente
+
+        //$data = $entity->convertToArray();
+        $keys = array_keys($data);
+
+        $columns = '';
+        // Je boucle dessus
+        foreach ($keys as $key) {
+           $columns .= ' ' . $key . ' = :' . $key . ',';
+        }
+        $columns = trim($columns, ',');
+
+        $pdo = PdoConnect::getInstance();
+        $tableName = $this->getTableName();
+        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $data['id'];
+        $stmt = $pdo->prepare($sql);
+        $newArticle = [
+            'id' => 25,
+            'title' => 'Une table mise à jour ',
+            'content' => 'mon nouveau contenu'
+        ];
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(':' . $key, $newArticle[$key] );
+        }
+
+        $stmt->execute();
+
+        return true;
+    }
+
+    //public function save($idArticle = null)
+    public function save($entity)
+    {
+        $data = $entity->convertToArray();
+
+        // Tester le polymorphisme une fois que j'aurais régler mon histoire de id (comment le gérer ?)
+        if (!is_null($data['id']) && is_int($data['id'])) {
+            return $this->update($data);
+        }
+
+        return $this->add($data);
+
+    }
 }

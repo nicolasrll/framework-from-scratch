@@ -20,15 +20,21 @@ class CommentController extends DefaultController
 
     public function saveAction()
     {
+        /*
         $entity = new Comment([
-            'article_id' => 4,
-            'pseudo' => 'Blabla',
-            'comment' => 'L\Aerty ressemble au qwerty',
+            'article_id' => 7,
+            'pseudo' => 'Antidote',
+            'comment' => 'Je suis la solution',
         ]);
-        echo '<br><br>';
-        $entity = $entity->getAttributes();
-        echo '<br>CLES : <br>';
-        $commentManager = new CommentManager();
-        $commentManager->save($entity);
+        */
+        $postData = [
+            'article_id' => 12,
+            'pseudo' => $_POST['pseudo'],
+            'comment' => $_POST['comment'],
+        ];
+        $entity = (new Comment())->hydrate($postData);
+        $commentManager = (new CommentManager())->save($entity);
+        //$commentManager->add($entity);
+
     }
 }

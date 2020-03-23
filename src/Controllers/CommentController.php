@@ -27,14 +27,34 @@ class CommentController extends DefaultController
             'comment' => 'Je suis la solution',
         ]);
         */
+        /*
         $postData = [
             'article_id' => 12,
             'pseudo' => $_POST['pseudo'],
             'comment' => $_POST['comment'],
         ];
-        $entity = (new Comment())->hydrate($postData);
-        $commentManager = (new CommentManager())->save($entity);
+        */
+        $entity = (new Comment())->hydrate($_POST['comment']);
+        $commentManager = (new CommentManager())->add($entity);
         //$commentManager->add($entity);
+    }
+
+    public function updateAction()
+    {
+        // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
+        // On instant ArticleManager
+        // Puis on appelle la méthode update
+        $postData = [
+            'id' => 57,
+            'article_id' => 4,
+            'pseudo' => 'Dupont',
+            'comment' => 'Design stylé!',
+        ];
+        $entity = (new Comment())->hydrate($postData);
+        //$articleManager = (new ArticleManager())->save($entity);;
+        $articleManager = (new CommentManager())->update($entity);
 
     }
+
+
 }

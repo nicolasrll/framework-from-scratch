@@ -2,11 +2,11 @@
 {% block title%}Nouveau article{% endblock %}
 {% block content %}
     <h1>Nouveau article</h1>
-    <form action="/article/save" method="post">
+    <form action="/article/update" method="post">
         <label for="title">Titre de l'article</label><br>
-        <input type="text" id="title" name="title"><br>
+        <input type="text" id="title" name="article[title]"><br>
         <label for="content">Contenu</label><br>
-        <textarea id="content" name="content" rows="10" cols="50"></textarea><br>
+        <textarea id="content" name="article[content]" rows="10" cols="50"></textarea><br>
         <input type="submit" value="Envoyer"><br>
     </form>
 {% endblock content %}

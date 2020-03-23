@@ -44,16 +44,10 @@ abstract class AbstractManager
         $requestSql = 'SELECT * FROM ' . $tableName . ' WHERE 1=1';
         $result = [];
 
-        //SANS LE BIND
         for ($i = 0; $i < count($args); $i++) {
             $requestSql .= ' AND ' . $keys[$i] . ' = ' . $args[$keys[$i]];
         }
 
-       /*
-       for ($i = 0; $i < count($args); $i++) {
-            $requestSql .= ' AND ' . $keys[$i] . ' = :' . $keys[$i];
-       }
-       */
         $pdo = PdoConnect::getInstance();
         $request = $pdo->query($requestSql);
         /*
@@ -71,7 +65,7 @@ abstract class AbstractManager
         return $result;
     }
 
-    function find($filter = null)
+    public function find($filter = null)
     {
         if (is_numeric($filter)) {
             // On return findOne($filter)
@@ -85,88 +79,51 @@ abstract class AbstractManager
         return $this->findAll();
     }
 
-    public function add($data) {
+    public function add($entity) {
+        $properties = $entity->convertToArray();
+        $columns = array_keys($properties);
+        $columns = implode(',', $columns);
+        $values = array_values($properties);
+        $markers = array_fill(1, count($properties), '?');
+        $markers = implode(',', $markers);
 
-        //$data = $entity->convertToArray();
-
-        if (isset($data['id'])) {
-            unset($data['id']);
-        }
-
-        // Je récupère les clés des propriétés
-        $keys = array_keys($data);
-        $columns = implode(',', $keys);
-
-        // Je créer mes chaines vide qui vont me servir dans le requete préparer
-        $colmunsValues = '';
-        // Je boucle dessus
-        foreach ($keys as $key) {
-           $colmunsValues .= ' ' . ':' . $key . ',';
-        }
-        // Je supprime les virgules de fin de chaine
-        $colmunsValues = trim($colmunsValues, ',');
-
-        // Je récupère mon instance PDO
-        $pdo = PdoConnect::getInstance();
-        // Je récupère le nom de la table appelante
         $tableName = $this->getTableName();
-        // Je prépare ma requête
-        $sql = 'INSERT INTO ' . $tableName . '(' . $columns . ') VALUES (' . $colmunsValues . ')';
+        $pdo = PdoConnect::getInstance();
+        $sql = 'INSERT INTO ' . $tableName . '('.$columns . ') VALUES (' . $markers . ')';
         $stmt = $pdo->prepare($sql);
-        foreach ($data as $key => $value) {
-            $stmt->bindValue(':' . $key, $value);
-        }
-        // J'exécute
-       $stmt->execute();
-
-       return true;
+        $stmt->execute($values);
     }
 
-    public function update($data){
-        // UPDATE article SET name_field1 = 'new value', name_field2 = 'new value' WHERE id = $entity->getId
-        // On boucle pour parcourir l'ensemble des champs d'un commentaire ou d'un article et lui attribuer sa nouvelle valeur (name_field1 = 'new value', ...)
-        // On stocke ça dans une variable
-        // On construit la requête en venant concaténé la variable précédente
-
-        //$data = $entity->convertToArray();
-        $keys = array_keys($data);
-
+    public function update($entity) {
+        $id = $entity->getId();
+        $properties = $entity->convertToArray();
+        $keys = array_keys($properties);
+        $values = array_values($properties);
         $columns = '';
-        // Je boucle dessus
+
         foreach ($keys as $key) {
-           $columns .= ' ' . $key . ' = :' . $key . ',';
+           $columns .= ' ' . $key . ' = ?,';
         }
         $columns = trim($columns, ',');
+        //$columns = implode(' = ?,', $keys);
 
-        $pdo = PdoConnect::getInstance();
         $tableName = $this->getTableName();
-        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $data['id'];
-        $stmt = $pdo->prepare($sql);
+        $pdo = PdoConnect::getInstance();
         $newArticle = [
-            'id' => 25,
-            'title' => 'Une table mise à jour ',
-            'content' => 'mon nouveau contenu'
+            //'id' => 57,
+            'title' => 'Chalet & foie gras',
+            'content' => 'Ici se trouve le contexte du projet 2 du parcours',
         ];
-        foreach ($data as $key => $value) {
-            $stmt->bindValue(':' . $key, $newArticle[$key] );
-        }
-
-        $stmt->execute();
-
-        return true;
-    }
-
-    //public function save($idArticle = null)
-    public function save($entity)
-    {
-        $data = $entity->convertToArray();
-
-        // Tester le polymorphisme une fois que j'aurais régler mon histoire de id (comment le gérer ?)
-        if (!is_null($data['id']) && is_int($data['id'])) {
-            return $this->update($data);
-        }
-
-        return $this->add($data);
-
+        $newComment = [
+            'article_id' => 4,
+            'pseudo' => 'LaTour',
+            'comment' => 'design au top'
+        ];
+        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $id;
+        $stmt = $pdo->prepare($sql);
+        $newArticle = array_values($newArticle);
+        $stmt->execute($newArticle);
+        //$newComment = array_values($newComment);
+        //$stmt->execute($newComment);
     }
 }

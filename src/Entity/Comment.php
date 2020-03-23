@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
-class Comment
+use Core\AbstractEntity;
+
+class Comment extends AbstractEntity
 {
     private $id;
     private $article_id;
@@ -19,6 +21,7 @@ class Comment
     }
     */
 
+/*
     public function hydrate(array $data)
     {
         $this->id = $data['id'] ?? null;
@@ -26,11 +29,16 @@ class Comment
         $this->pseudo = $data['pseudo'];
         $this->comment = $data['comment'];
 
-        return $this;
+        return $this; //  use for fluent pattern
     }
+*/
 
     public function convertToArray()
     {
+        if (isset($this->id)) {
+            unset($this->id);
+        }
+
         return get_object_vars($this);
     }
 
@@ -49,7 +57,7 @@ class Comment
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = $id ?? null;
 
         return $this;
     }
@@ -57,7 +65,7 @@ class Comment
     /**
      * @return mixed
      */
-    public function getArticleId()
+    public function getArticle_id()
     {
         return $this->article_id;
     }
@@ -67,9 +75,9 @@ class Comment
      *
      * @return self
      */
-    public function setArticleId($article_id)
+    public function setArticle_id($article_id)
     {
-        $this->article_id = $article_id;
+        $this->article_id = $article_id ?? null;
 
         return $this;
     }

@@ -56,13 +56,14 @@ class ArticleController extends DefaultController
             'content' => 'Mon contenue',
         ]);
         */
+       /*
         $postData = [
             'title' => $_POST['title'],
             'content' => $_POST['content'],
         ];
-        $article = (new Article())->hydrate($postData);
-
-        $result = (new ArticleManager())->save($article);
+        */
+        $article = (new Article())->hydrate($_POST['article']);
+        $result = (new ArticleManager())->add($article);
     }
 
     public function updateAction()
@@ -70,14 +71,17 @@ class ArticleController extends DefaultController
         // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
         // On instant ArticleManager
         // Puis on appelle la méthode update
+
         $postData = [
-            'id' => 25,
-            'title' => 'Une titre',
-            'content' => 'Un contenu pas comme un autre',
+            'id' => 57,
+            'title' => 'Chalet & Caviar',
+            'content' => 'Ici se trouve le contexte du projet',
         ];
+
         $entity = (new Article())->hydrate($postData);
-        $articleManager = (new ArticleManager())->save($entity);;
-        //$articleManager->update($entity);
+        //$articleManager = (new ArticleManager())->save($entity);;
+        //$articleManager = (new ArticleManager())->update($entity);
+        $articleManager = (new ArticleManager())->update($entity);
 
     }
 }

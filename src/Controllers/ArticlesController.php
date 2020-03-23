@@ -12,11 +12,18 @@ class ArticlesController extends DefaultController
     public function indexAction()
     {
         $articleManager = new ArticleManager();
-        $articleManager->find();
+        $articles = $articleManager->find();
+        echo $articles[0]['title'] . '<br>';
+        //$articlesExploded = explode(delimiter, string)
+
+        foreach ($articles as $key => $value) {
+                echo $value . '<br>';
+        }
+
         $this->renderView(
             'articles.html.twig',
             [
-                'titlePage' => 'Articles'
+                $articles
             ]
         );
     }

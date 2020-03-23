@@ -5,12 +5,16 @@
     <h2>Commenter l'article</h2>
     <form action="/comment/save" method="post">
     <p>
+    <label for="article_id">Article id</label>
+    <input type="text" id="article_id" name="comment[article_id]">
+    </p>
+    <p>
     <label for="pseudo">Votre pseudo</label>
-    <input type="text" id="pseudo" name="pseudo">
+    <input type="text" id="pseudo" name="comment[pseudo]">
     </p>
     <p>
     <label for="comment">Commentaire</label>
-    <textarea id="comment" name="comment" rows="10" cols="50"></textarea
+    <textarea id="comment" name="comment[comment]" rows="10" cols="50"></textarea
     </p>
     <p>
     <input type="submit" value="Envoyer">

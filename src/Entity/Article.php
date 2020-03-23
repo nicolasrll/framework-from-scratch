@@ -2,11 +2,13 @@
 
 namespace App\Entity;
 
-class Article
+use Core\AbstractEntity;
+
+class Article extends AbstractEntity
 {
-    private $id;
-    public $title = '';
-    private $content = '';
+    protected $id;
+    protected $title = '';
+    protected $content = '';
 
 /*
     public function __construct($data)
@@ -16,6 +18,8 @@ class Article
         $this->content = $data['content'];
     }
 */
+
+    /*
     public function hydrate(array $data)
     {
         $this->id = $data['id'] ?? null;
@@ -24,9 +28,14 @@ class Article
 
         return $this;
     }
+    */
 
     public function convertToArray()
     {
+        //if (isset($this->id)) {
+            unset($this->id);
+        //}
+
         return get_object_vars($this);
     }
 
@@ -35,7 +44,7 @@ class Article
      */
     public function getId()
     {
-        return $this->id;
+        return $this->id ?? null;
     }
 
     /**
@@ -45,7 +54,7 @@ class Article
      */
     public function setId($id)
     {
-        $this->id = $id;
+        $this->id = $id ?? null;
     }
 
     /**

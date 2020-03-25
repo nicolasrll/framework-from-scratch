@@ -17,51 +17,33 @@ class ArticleController extends DefaultController
 {
     public function indexAction()
     {
-        //$articleManager = new ArticleManager(PdoConnect::getinstance());
+        $articleManager = new ArticleManager();
+        $commentManager = new CommentManager();
+        $idArticle = $this->voir();
+        $article = $articleManager->find($idArticle);
+
+        $comments = $commentManager->find(['article_id' => $idArticle]);
         $this->renderView(
             'article.html.twig',
             [
-                'titlePage' => 'Article'
+                'titlePage' => 'Article',
+                'article' => $article,
+                'comments' => $comments,
+                'idArticle' => $idArticle
             ]
         );
-
-        //$this->voir();
     }
 
-    public function voirAction()
+    public function voir()
     {
         require_once (PROJECT_ROOT_PATH . '/core/Request.php');
         $idArticle = (Request::getInstance())->getParam('articleId', 'Article');
 
-        $articleManager = new ArticleManager();
-        $commentManager = new CommentManager();
-        //$article = $articleManager->findOne($idArticle);
-        $article = $articleManager->find($idArticle);
-        //echo '<br><br>';
-        //$commentManager->find(['article_id' => $idArticle]));
+        return $idArticle;
     }
 
-    public function saveAction()
+    public function addAction()
     {
-        /*
-        $entity = new Article([
-            'title' => 'Mon titre',
-            'content' => 'Mon contenue',
-        ]);
-        */
-
-        /*
-        $entity->hydrate([
-             'title' => 'Mon titre',
-            'content' => 'Mon contenue',
-        ]);
-        */
-       /*
-        $postData = [
-            'title' => $_POST['title'],
-            'content' => $_POST['content'],
-        ];
-        */
         $article = (new Article())->hydrate($_POST['article']);
         $result = (new ArticleManager())->add($article);
     }
@@ -71,17 +53,9 @@ class ArticleController extends DefaultController
         // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
         // On instant ArticleManager
         // Puis on appelle la méthode update
-
-        $postData = [
-            'id' => 57,
-            'title' => 'Chalet & Caviar',
-            'content' => 'Ici se trouve le contexte du projet',
-        ];
-
-        $entity = (new Article())->hydrate($postData);
+        $idArticle = $this->voir();
+        $entity = (new Article())->hydrate($_POST['article']);
         //$articleManager = (new ArticleManager())->save($entity);;
-        //$articleManager = (new ArticleManager())->update($entity);
-        $articleManager = (new ArticleManager())->update($entity);
-
+        $articleManager = (new ArticleManager())->update($entity, $idArticle);
     }
 }

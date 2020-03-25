@@ -6,10 +6,10 @@ use Core\AbstractEntity;
 
 class Comment extends AbstractEntity
 {
-    private $id;
-    private $article_id;
-    private $pseudo = '';
-    private $comment = '';
+    protected $id;
+    protected $article_id;
+    protected $pseudo = '';
+    protected $comment = '';
 
     /*
     public function __construct($data)
@@ -32,15 +32,6 @@ class Comment extends AbstractEntity
         return $this; //  use for fluent pattern
     }
 */
-
-    public function convertToArray()
-    {
-        if (isset($this->id)) {
-            unset($this->id);
-        }
-
-        return get_object_vars($this);
-    }
 
     /**
      * @return mixed

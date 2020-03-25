@@ -94,8 +94,10 @@ abstract class AbstractManager
         $stmt->execute($values);
     }
 
-    public function update($entity) {
+    public function update($entity, $idArticle) {
+        // Used before using the id in the url in the WHERE
         $id = $entity->getId();
+
         $properties = $entity->convertToArray();
         $keys = array_keys($properties);
         $values = array_values($properties);
@@ -109,21 +111,15 @@ abstract class AbstractManager
 
         $tableName = $this->getTableName();
         $pdo = PdoConnect::getInstance();
-        $newArticle = [
-            //'id' => 57,
-            'title' => 'Chalet & foie gras',
-            'content' => 'Ici se trouve le contexte du projet 2 du parcours',
-        ];
-        $newComment = [
-            'article_id' => 4,
-            'pseudo' => 'LaTour',
-            'comment' => 'design au top'
-        ];
-        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $id;
+
+        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $idArticle;
         $stmt = $pdo->prepare($sql);
-        $newArticle = array_values($newArticle);
-        $stmt->execute($newArticle);
+        //$newArticle = array_values($newArticle);
+        $stmt->execute($values);
         //$newComment = array_values($newComment);
         //$stmt->execute($newComment);
+
+        return $this;
+
     }
 }

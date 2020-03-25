@@ -30,15 +30,6 @@ class Article extends AbstractEntity
     }
     */
 
-    public function convertToArray()
-    {
-        //if (isset($this->id)) {
-            unset($this->id);
-        //}
-
-        return get_object_vars($this);
-    }
-
     /**
      * @return mixed
      */

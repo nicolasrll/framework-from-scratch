@@ -2,22 +2,34 @@
 {% block title%}Article{% endblock %}
 {% block content %}
     <h1>Article</h1>
+    <h2>{{ article.title }}</h2>
+    <p>{{ article.content }}</p>
+    <a href="/new?articleId={{ idArticle }}">Modifier</a>
+    <h2>Commentaires de l'article</h2>
+    {% for comment in comments %}
+        <p>
+            Posté par {{ comment.pseudo }}<br>
+            {{ comment.comment }}<br>
+            <p>{{ comment.id }}</p>
+            <a href="/comment?commentId={{ comment.id }}">Modifier</a>
+        </p>
+    {% endfor %}
     <h2>Commenter l'article</h2>
-    <form action="/comment/save" method="post">
-    <p>
-    <label for="article_id">Article id</label>
-    <input type="text" id="article_id" name="comment[article_id]">
-    </p>
-    <p>
-    <label for="pseudo">Votre pseudo</label>
-    <input type="text" id="pseudo" name="comment[pseudo]">
-    </p>
-    <p>
-    <label for="comment">Commentaire</label>
-    <textarea id="comment" name="comment[comment]" rows="10" cols="50"></textarea
-    </p>
-    <p>
-    <input type="submit" value="Envoyer">
-    </p>
+    <form action="/comment/add" method="post">
+        <p>
+            <label for="article_id">ID Article</label><br>
+            <input type="text" id="article_id" name="comment[article_id]" value={{ comment.article_id }}>
+        </p>
+        <p>
+            <label for="pseudo">Votre pseudo</label><br>
+            <input type="text" id="pseudo" name="comment[pseudo]" value="{{ comment.pseudo }}">
+        </p>
+        <p>
+            <label for="comment">Commentaire</label><br>
+            <textarea id="comment" name="comment[comment]" rows="10" cols="50">{{ comment.comment }}</textarea
+        </p>
+        <p>
+            <input type="submit" value="Envoyer">
+        </p>
     </form>
 {% endblock content %}

@@ -15,7 +15,8 @@
         </p>
     {% endfor %}
     <h2>Commenter l'article</h2>
-    <form action="/comment/add" method="post">
+    <form action="/comment/update?commentId={{ comment.id }}
+" method="post">
         <p>
             <label for="article_id">ID Article</label><br>
             <input type="text" id="article_id" name="comment[article_id]" value={{ comment.article_id }}>

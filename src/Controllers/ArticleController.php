@@ -36,7 +36,7 @@ class ArticleController extends DefaultController
 
     public function voir()
     {
-        require_once (PROJECT_ROOT_PATH . '/core/Request.php');
+        //require_once (PROJECT_ROOT_PATH . '/core/Request.php');
         $idArticle = (Request::getInstance())->getParam('articleId', 'Article');
 
         return $idArticle;
@@ -46,6 +46,16 @@ class ArticleController extends DefaultController
     {
         $article = (new Article())->hydrate($_POST['article']);
         $result = (new ArticleManager())->add($article);
+
+
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->find();
+        $this->renderView(
+            'articles.html.twig',
+            [
+                'articles' => $articles
+            ]
+        );
     }
 
     public function updateAction()
@@ -57,5 +67,19 @@ class ArticleController extends DefaultController
         $entity = (new Article())->hydrate($_POST['article']);
         //$articleManager = (new ArticleManager())->save($entity);;
         $articleManager = (new ArticleManager())->update($entity, $idArticle);
+
+        $articleManager = new ArticleManager();
+        $commentManager = new CommentManager();
+        $article = $articleManager->find($idArticle);
+        $comments = $commentManager->find(['article_id' => $idArticle]);
+        $this->renderView(
+            'article.html.twig',
+            [
+                'titlePage' => 'Article',
+                'article' => $article,
+                'comments' => $comments,
+                'idArticle' => $idArticle
+            ]
+        );
     }
 }

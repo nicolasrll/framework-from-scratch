@@ -17,7 +17,7 @@ abstract class AbstractManager
 
         $tableName = $this->getTableName();
         $request = $pdo->query('SELECT * FROM ' . $tableName . ' WHERE id = ' . $id);
-        $data = $request->fetch(\PDO::FETCH_ASSOC);
+        $data = $request->fetch();
 
         return $data;
     }
@@ -29,10 +29,20 @@ abstract class AbstractManager
         $articles = [];
 
         $tableName = $this->getTableName();
+        $requestSql = 'SELECT * FROM ' . $tableName;
+        $stmt = $pdo->prepare($requestSql);
+        $stmt->execute();
+        $lines = $stmt->fetchAll();
+        foreach ($lines as $line) {
+            $result[] = $line;
+        }
+        //die();
+        /*
         $request = $pdo->query('SELECT * FROM ' . $tableName);
         while ($data = $request->fetch(\PDO::FETCH_ASSOC)) {
             $result[] = $data;
         }
+        */
 
         return $result;
     }
@@ -79,7 +89,7 @@ abstract class AbstractManager
         return $this->findAll();
     }
 
-    public function add($entity) {
+    public function add(AbstractEntity $entity) {
         $properties = $entity->convertToArray();
         $columns = array_keys($properties);
         $columns = implode(',', $columns);
@@ -94,9 +104,9 @@ abstract class AbstractManager
         $stmt->execute($values);
     }
 
-    public function update($entity, $idArticle) {
+    public function update(AbstractEntity $entity, $idArticle) {
         // Used before using the id in the url in the WHERE
-        $id = $entity->getId();
+        //$id = $entity->getId();
 
         $properties = $entity->convertToArray();
         $keys = array_keys($properties);

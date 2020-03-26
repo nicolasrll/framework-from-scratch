@@ -2,7 +2,9 @@
 {% block title%}Nouveau article{% endblock %}
 {% block content %}
     <h1>Nouveau article</h1>
-    <form action="/article/update?articleId={{ idArticle }}" method="post">
+    {# to test update : update?articleId={{ idArticle }}#}
+    {# to test add : #}
+    <form action="/article/add" method="post">
         <label for="title">Titre de l'article</label><br>
         <input type="text" id="title" name="article[title]" value="{{ article.title }}"><br>
         <label for="content">Contenu</label><br>

@@ -4,24 +4,40 @@ namespace Core;
 
 abstract class AbstractEntity
 {
-    public function hydrate($data){
+    public function hydrate(array $data){
         foreach ($data as $property => $value) {
-            //if(array_key_exists($property, $this->convertToArray())) {
-                $method = 'set'.ucfirst($property);
-                echo '<br>';
-                if(method_exists($this, $method)) {
-                    $this->$method($value);
-                }
-            //}
+            $method = 'set'.ucfirst($property);
+            if(method_exists($this, $method)) {
+                $this->$method($value);
+            }
         }
 
         return $this; // use to fluent pattern
     }
 
+        /**
+     * @return mixed
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param mixed $id
+     *
+     * @return self
+     */
+    public function setId(int $id)
+    {
+        $this->id = $id;
+    }
+
     public function convertToArray()
     {
-        unset($this->id);
+        $data = get_object_vars($this);
+        unset($data['id']);
 
-        return get_object_vars($this);
+        return $data;
     }
 }

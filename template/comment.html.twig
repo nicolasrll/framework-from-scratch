@@ -1,28 +1,26 @@
 {% extends "template.html.twig" %}
 {% block title%}{{ titlePage }}{% endblock %}
 {% block content %}
-    <h1>{{ titlePage }}</h1>
+    <h1>Article</h1>
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
-    <a href="/articleform/edit?id={{ article.id }}">Modifier</a>
-    <a href="/article/delete?id={{ article.id }}">Supprimer</a>
-    <h2>Commentaires de l'article</h2>
-    {% for comment in comments %}
+    <a href="/new?id={{ article.id }}">Modifier</a>
+    <h2>{{ titlePage }}</h2>
         <p>
             Posté par {{ comment.pseudo }}<br>
             {{ comment.comment }}<br>
             <p>{{ comment.id }}</p>
             <a href="/comment?id={{ comment.id }}">Modifier</a>
-            <a href="/comment/delete?id={{ comment.id }}">Supprimer</a>
+            <a href="/comment/delete?commentId={{ comment.id }}">Supprimer</a>
         </p>
-    {% endfor %}
-    <h2>Commenter l'article {{ action }}</h2>
-    {# <form action="/comment/edit?id={{ comment.id }}" " method="post"> #}
-    {# <form action="/comment/insert" method="post"> #}
+        <h2>Commenter l'article</h2>
+    {# <form action="/comment/edit?id={{ comment.id }}" " method="post">#}
+    <p>{{ message }}</p>
+    {# <form action="/comment/edit?id={{ comment.id }}" method="post"> #}{{ action }}
     <form action="/comment/{{ action }}" method="post">
         <p>
             <label for="article_id">ID Article</label><br>
-            <input type="text" id="article_id" name="comment[articleId]" value={{ article.id }}>
+            <input type="text" id="article_id" name="comment[article_id]" value={{ comment.article_id }}>
         </p>
         <p>
             <label for="pseudo">Votre pseudo</label><br>

@@ -18,4 +18,19 @@ abstract class DefaultController
 
         echo $twig->render($view, $params);
     }
+
+/*
+    public function getParams()
+    {
+        $articleId = (Request::getInstance())->getParam('id');
+
+        return $articleId;
+    }
+*/
+
+    public function callGetParam($searching)
+    {
+        return (Request::getInstance())->getParam($searching);
+    }
 }
+

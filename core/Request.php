@@ -16,12 +16,12 @@ class Request
      * Retrieve the url and clean it before isole elements in array
      *
      * Exemple:
-     *     monsite.fr/article/voir
+     *     monsite.fr/article/edit
      *     new Request() = {
-     *         url : /article/voir
+     *         url : /article/edit
      *         urlExploded : [
      *             '0' => 'article',
-     *             '1' => 'voir'
+     *             '1' => 'edit'
      *         ];
      *     }
      *
@@ -104,7 +104,7 @@ class Request
      * Looking for $_POST value
      * @return int|null Return id article or null if different of isset and empty string
      */
-    public function getPostParam(string $searchValue, $defaultValue = null): ?string
+    public function getPostParam(string $searchValue, $defaultValue = null)//: ?string
     {
         return (isset($_POST[$searchValue]) && $_POST[$searchValue] != '')
             ? $_POST[$searchValue]
@@ -115,7 +115,7 @@ class Request
      * Lookinf for $_GET value
      * @return int|null If different of isset and empty string
      */
-    public function getGetParam(string $searchValue, $defaultValue = null): ?string
+    public function getGetParam(string $searchValue, $defaultValue = null)//: ?string
     {
         return (isset($_GET[$searchValue]) && $_GET[$searchValue] != '')
             ? $_GET[$searchValue]
@@ -128,10 +128,10 @@ class Request
      * @param $default Returned value by default
      * @return string|null Return $default argument if getPostParam or getGetParam is différent of isset and empty string
      */
-    public function getParam(string $searchValue, $defaultValue = null): ?string
+    public function getParam(string $searchValue, $defaultValue = null)//: ?string
     {
         return $this->getPostParam($searchValue)
             ?? $this->getGetParam($searchValue)
-            ?? $default;
+            ?? $defaultValue;
     }
 }

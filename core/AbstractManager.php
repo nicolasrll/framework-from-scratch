@@ -10,86 +10,80 @@ abstract class AbstractManager
 {
     abstract public function getTableName();
 
-    public function findOne(int $id)
-    {
-
-        $pdo = PdoConnect::getInstance();
-
-        $tableName = $this->getTableName();
-        $request = $pdo->query('SELECT * FROM ' . $tableName . ' WHERE id = ' . $id);
-        $data = $request->fetch();
-
-        return $data;
+    public function getConnectionPdo() {
+        return PdoConnect::getInstance();
     }
 
-
-    public function findAll()
+    public function findOne($id)
     {
-        $pdo = PdoConnect::getInstance();
-        $articles = [];
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getConnectionPdo();
+        $entityName = $this->getTableName();
 
+        //$stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT * FROM ' . $entityName . ' WHERE ' . $this->getTablePk() . ' = ?');
+        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($entityName));
+        $stmt->execute([ $id ]);
+        return $stmt->fetch();
+    }
+
+    // Ex function findAll()
+    public function find(array $args = [])
+    {
+        // On récupère l'instance pdo
+        // On récupère le nom de la table appelante
+        // Si $arg est empty alors code de FindAll
+        // Sinon search
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getConnectionPdo();
         $tableName = $this->getTableName();
+
         $requestSql = 'SELECT * FROM ' . $tableName;
+
+        // if not empty then search function
+        if (!empty($args)) {
+            // Retrieve keys and values passed
+            $keys = \array_keys($args);
+            $values = array_values($args);
+
+            $requestSql .= ' WHERE 1=1 ';
+            foreach ($keys as $key) {
+                $requestSql .= ' AND ' . $key . ' = ?';
+            }
+         }
+
         $stmt = $pdo->prepare($requestSql);
+
+        // Execute function search with values passed
+        if (isset($values)) {
+            $stmt->execute($values);
+            return $stmt->fetchAll();
+        }
+
         $stmt->execute();
-        $lines = $stmt->fetchAll();
-        foreach ($lines as $line) {
-            $result[] = $line;
-        }
-        //die();
-        /*
-        $request = $pdo->query('SELECT * FROM ' . $tableName);
-        while ($data = $request->fetch(\PDO::FETCH_ASSOC)) {
-            $result[] = $data;
-        }
-        */
-
-        return $result;
+        return $stmt->fetchAll();
     }
 
-    function search(array $args)
-    {
-        $keys = \array_keys($args);
-        $tableName = $this->getTableName();
-        $requestSql = 'SELECT * FROM ' . $tableName . ' WHERE 1=1';
-        $result = [];
-
-        for ($i = 0; $i < count($args); $i++) {
-            $requestSql .= ' AND ' . $keys[$i] . ' = ' . $args[$keys[$i]];
-        }
-
-        $pdo = PdoConnect::getInstance();
-        $request = $pdo->query($requestSql);
-        /*
-        $request = $pdo->prepare($requestSql);
-        for ($i = 0; $i < count($args); $i++) {
-            $request->bindValue(':' . $keys[$i], $args[$keys[$i]]);
-        }
-        */
-
-        while ($data = $request->fetch(\PDO::FETCH_ASSOC)) {
-            //$result[] = new $tableName($data);
-            $result[] = $data;
-        }
-
-        return $result;
-    }
-
+    // Polymorophisme utilisé pour appelé findOne, search ou findALl
+    /*
     public function find($filter = null)
     {
         if (is_numeric($filter)) {
             // On return findOne($filter)
             return $this->findOne($filter);
         }
+
         if (is_array($filter) && !empty($filter)) {
             // On return search
             return $this->search($filter);
         }
         // Sinon on return findAll
-        return $this->findAll();
+        return $this->findAll($filter);
     }
+    */
+    public function insert(AbstractEntity $entity): bool
+    {
 
-    public function add(AbstractEntity $entity) {
         $properties = $entity->convertToArray();
         $columns = array_keys($properties);
         $columns = implode(',', $columns);
@@ -98,38 +92,49 @@ abstract class AbstractManager
         $markers = implode(',', $markers);
 
         $tableName = $this->getTableName();
-        $pdo = PdoConnect::getInstance();
-        $sql = 'INSERT INTO ' . $tableName . '('.$columns . ') VALUES (' . $markers . ')';
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getConnectionPdo();
+        $sql = 'INSERT INTO ' . $this->getTableName() . '('.$columns . ') VALUES (' . $markers . ')';
         $stmt = $pdo->prepare($sql);
-        $stmt->execute($values);
+
+        return $stmt->execute($values);
     }
 
-    public function update(AbstractEntity $entity, $idArticle) {
+    public function edit(AbstractEntity $entity): bool
+    {
         // Used before using the id in the url in the WHERE
-        //$id = $entity->getId();
+        $id = $entity->getId();
+
+        echo '<br>';
 
         $properties = $entity->convertToArray();
         $keys = array_keys($properties);
         $values = array_values($properties);
         $columns = '';
-
         foreach ($keys as $key) {
            $columns .= ' ' . $key . ' = ?,';
         }
         $columns = trim($columns, ',');
         //$columns = implode(' = ?,', $keys);
 
-        $tableName = $this->getTableName();
-        $pdo = PdoConnect::getInstance();
-
-        $sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $idArticle;
+        //$tableName = $this->getTableName();
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getConnectionPdo();
+        //$sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $id;
+        $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . $columns . ' WHERE ' . $this->getTablePk() . ' = ' . $id;
         $stmt = $pdo->prepare($sql);
-        //$newArticle = array_values($newArticle);
-        $stmt->execute($values);
-        //$newComment = array_values($newComment);
-        //$stmt->execute($newComment);
 
-        return $this;
+        return $stmt->execute($values);
+    }
 
+    public function delete(int $id): bool
+    {
+        //$tableName = $this->getTableName();
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getConnectionPdo();
+        //$stmt = $pdo->prepare('DELETE FROM ' . $tableName .' WHERE id = ?');
+        $stmt = $pdo->prepare('DELETE FROM ' . $this->getTableName() .' WHERE ' . $this->getTablePk() . '= ?');
+
+        return $stmt->execute([$id]);
     }
 }

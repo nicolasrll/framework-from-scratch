@@ -7,7 +7,7 @@ use Core\AbstractEntity;
 class Comment extends AbstractEntity
 {
     protected $id;
-    protected $article_id;
+    protected $articleId;
     protected $pseudo = '';
     protected $comment = '';
 
@@ -36,29 +36,9 @@ class Comment extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getId()
+    public function getArticleId()
     {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     *
-     * @return self
-     */
-    public function setId($id)
-    {
-        $this->id = $id ?? null;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getArticle_id()
-    {
-        return $this->article_id;
+        return $this->articleId;
     }
 
     /**
@@ -66,9 +46,9 @@ class Comment extends AbstractEntity
      *
      * @return self
      */
-    public function setArticle_id($article_id)
+    public function setArticleId($articleId)
     {
-        $this->article_id = $article_id ?? null;
+        $this->articleId = $articleId ?? null;
 
         return $this;
     }

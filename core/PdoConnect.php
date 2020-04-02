@@ -17,7 +17,8 @@ class PdoConnect
     {
 
         if (is_null(self::$pdo)) {
-            self::$pdo = new \PDO('mysql:host=localhost; dbname=ffs', 'nicolas', 'root');
+            //self::$pdo = new \PDO('mysql:host=localhost; dbname=ffs', 'nicolas', 'root');
+            self::$pdo = new \PDO('mysql:host=localhost; dbname=ffs-prod', 'nicolas', 'root');
         }
         return self::$pdo;
 

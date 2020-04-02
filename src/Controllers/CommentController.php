@@ -17,54 +17,140 @@ class CommentController extends DefaultController
     {
         $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
-        //$article = $articleManager->findOne($idArticle);
 
-        $idComment = $this->voir();
+        //$commentId = $this->getParams();
+        $commentId = $this->callGetParam('id');
 
-        $comment = $commentManager->find($idComment);
+        $comment = $commentManager->findOne($commentId);
 
-        $article = $articleManager->find($comment['article_id']);
-        echo '<br><h1>Commentaire de l\'article</h1>';
-        $comments = $commentManager->find(['article_id' => $comment['article_id']]);
-        //$comment = $commentManager->find($idComment);
+        $article = $articleManager->findOne($comment->getArticleId());
+
+        $comments = $commentManager->find(['article_id' => $comment->getArticleId()]);
+        $comment = $commentManager->findOne($commentId);
+
+        $this->renderView(
+            'comment.html.twig',
+            [
+                'titlePage' => 'Modification du commentaire',
+                'article' => $article,
+                //'comments' => $comments,$
+                'comment' => $comment,
+                //'idArticle' => $comment->getArticle_Id()
+                'action' => 'edit?id='. $comment->getId(),
+                'actionArticle' => 'edit'
+            ]
+        );
+
+
+        /*
         $this->renderView(
             'article.html.twig',
             [
                 'titlePage' => 'Accueil',
-                'titleArticle' => $article['title'],
-                'contentArticle' => $article['content'],
+                'article' => $article,
                 'comments' => $comments,
                 'comment' => $comment
+            ]
+        );
+        */
+
+    }
+
+/*
+    public function voir()
+    {
+        $articleId = (Request::getInstance())->getParam('id');
+
+        return $articleId;
+    }
+*/
+
+    public function insertAction()
+    {
+        $entity = (new Comment())->hydrate($this->callGetParam('comment'));
+
+        $commentManager = (new CommentManager())->insert($entity);
+
+        $articles = (new ArticleManager())->find();
+        $this->renderView(
+            'articles.html.twig',
+            [
+                'articles' => $articles,
+                'message' => 'L\'article a bien été supprimé'
             ]
         );
 
     }
 
-    public function voir()
+    public function editAction()
     {
-        require_once (PROJECT_ROOT_PATH . '/core/Request.php');
-        $idArticle = (Request::getInstance())->getParam('commentId', 'Article');
+        //$commentId = (Request::getInstance())->getParam('id');
+        $commentId = $this->callGetParam('id');
 
-        return $idArticle;
+        $commentManager = new CommentManager();
+        // Retrive the item to update it
+        $comment = $commentManager->findOne($commentId);
+
+        if (!$comment) {
+            throw new \Exception('Le commentaire que vous souhaitez mettre jour n\'est plus disponible');
+        }
+
+
+        //$entity = (new Comment())->hydrate($_POST['comment']);
+        // Commenter le temps de résoudre mon problème
+        //$entity = $comment->hydrate((Request::getInstance())->getParam('comment'));
+        $entity = $comment->hydrate($this->callGetParam('comment'));
+        //$entity->setId($commentId);
+
+        $commentEdited = $commentManager->edit($entity);
+
+        $articleManager = new ArticleManager();
+        // On récupère l'article
+        $article = $articleManager->findOne($comment->getArticleId());
+        // On récupère tous les article associé à l'article
+        $comments = $commentManager->find(['article_id' => $comment->getArticleId()]);
+
+        if (!$commentEdited) {
+        $this->renderView(
+            'comment.html.twig',
+            [
+                'titlePage' => 'Modification du commentaire',
+                'article' => $article,
+                //'comments' => $comments,$
+                'comment' => $entity,
+                'idArticle' => $comment->getArticleId(),
+                'message' => 'Votre commentaire n\'a pas pu être modifer. Veuillez réessayer ou contacter l\'administrateur du site',
+            ]
+        );
+        //throw new \Exception('Votre commentaire n\' a pas pu être modifié');
+        return; // en attendant de trouver comment gérer avec une exception
+        }
+
+        $this->renderView(
+            'article.html.twig',
+            [
+                'titlePage' => 'Article',
+                'article' => $article,
+                //'comments' => $comments,$
+                'comments' => $comments,
+                'idArticle' => $comment->getArticleId()
+            ]
+        );
     }
 
-
-    public function addAction()
+    public function deleteAction()
     {
-        $entity = (new Comment())->hydrate($_POST['comment']);
-        $commentManager = (new CommentManager())->add($entity);
-        //$commentManager->add($entity);
-    }
+        //$id = $this->getParams();
+        $id = $this->callGetParam('id');
+        (new commentManager())->delete($id);
 
-    public function updateAction()
-    {
-        // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
-        // On instant ArticleManager
-        // Puis on appelle la méthode update
-        $idArticle = $this->voir();
-        //$entity = (new Comment())->hydrate($postData);
-        $entity = (new Comment())->hydrate($_POST['comment']);
-        //$articleManager = (new ArticleManager())->save($entity);;
-        $articleManager = (new CommentManager())->update($entity, $idArticle);
+        $articles = (new ArticleManager())->find();
+        $this->renderView(
+            'articles.html.twig',
+            [
+                'articles' => $articles,
+                'message' => 'L\'article a bien été supprimé'
+            ]
+        );
     }
 }

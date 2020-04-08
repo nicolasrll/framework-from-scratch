@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use Core\DefaultController;
+use Core\DefaultControllerAbstract;
 
-class AccueilController extends DefaultController
+class AccueilController extends DefaultControllerAbstract
 {
     public function indexAction()
     {

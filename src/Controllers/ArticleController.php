@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
-use Core\DefaultController;
+use Core\DefaultControllerAbstract;
 use Core\Request;
-use Core\PdoConnect;
 use App\Repository\ArticleManager;
 use App\Repository\CommentManager;
 use App\Entity\Article;
@@ -13,17 +12,17 @@ use App\Entity\Comment;
 //use App\Repository\AbstractManager;
 //use App\Entity\Article;
 
-class ArticleController extends DefaultController
+class ArticleController extends DefaultControllerAbstract
 {
 
     public function indexAction()
     {
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->find();
+        $articles = (new ArticleManager())->find();
 
-        $this->renderView(
+        return $this->renderView(
             'articles.html.twig',
             [
+                'titlePage' => 'Articles',
                 'articles' => $articles
             ]
         );
@@ -34,19 +33,17 @@ class ArticleController extends DefaultController
     {
         $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
-        //$articleId = $this->getParams();
-        $articleId = $this->callGetParam('id');
-
+        $articleId = $this->getRequestParam('id');
         $article = $articleManager->findOne($articleId);
-
         $comments = $commentManager->find(['articleId' => $articleId]);
-        $this->renderView(
+
+        return $this->renderView(
             'article.html.twig',
             [
                 'titlePage' => 'Article',
                 'article' => $article,
                 'comments' => $comments,
-                'action' => 'insert'
+                'action' => 'new',
                 //'idArticle' => $articleId
             ]
         );
@@ -62,37 +59,44 @@ class ArticleController extends DefaultController
     }
     */
 
-    public function insertAction()
+    public function newAction()
     {
-        //$article = (new Article())->hydrate($_POST['article']);
-        //$article = (new Article())->hydrate((Request::getInstance())->getParam('article'));
-        $article = (new Article())->hydrate($this->callGetParam('article'));
-        $result = (new ArticleManager())->insert($article);
+        if ($this->isSubmited('article')) {
+            $article = (new Article())->hydrate($this->getRequestParam('article'));
+            $result = (new ArticleManager())->insert($article);
 
-        $articleManager = new ArticleManager();
-        $articles = (new ArticleManager())->find();
+            header('Location: /article/see?id=' . $result);
+            /*
+            $articles = (new ArticleManager())->find();
+            return $this->renderView(
+                'articles.html.twig',
+                [
+                    'titlePage' => 'Articles',
+                    'articles' => $articles
+                ]
+            );
+            */
+        }
 
-        $this->renderView(
-           'articles.html.twig',
+        return $this->renderView(
+            'articleform.html.twig',
             [
-                'articles' => $articles
+                'titlePage' => 'Edition d\'un article',
+                'article' => $article,
+                'idArticle' => $articleId,
+                'action' => 'new'
             ]
         );
     }
 
     public function editAction()
     {
-        // On récupère l'article déjà existant via un get ici qu'on simule avec un new Article en brut
-        // On instant ArticleManager
-        // Puis on appelle la méthode update
-        //$articleId = (Request::getInstance())->getParam('id');
-        $articleId = $this->callGetParam('id');
+        $articleId = $this->getRequestParam('id');
 
         if (null == $articleId) {
             throw new \Exception('Une erreur s\'est produite');
         }
 
-        // On vérfiie qu'un article correspondant à l'id existe
         $articleManager = new ArticleManager();
         $article = $articleManager->findOne($articleId);
 
@@ -100,37 +104,36 @@ class ArticleController extends DefaultController
             throw new \Exception('L\'article que vous souhaitez mettre à jour n\'est plus disponible');
         }
 
-        // On récupère les éléments du formulaire d'édition
-        // METTRE UNE CONDITIONC ISSET OU EMPTY
+        if ($this->isSubmited('article')) {
+            $entity = $article->hydrate($this->getRequestParam('article'));
+            $articleEdited = $articleManager->update($entity);
+            if (!$articleEdited) {
+                throw new \Exception('L\'article n\'a pas pu $etre modifié');
+            }
 
-        //$entity = $article->hydrate((Request::getInstance())->getParam('article'));
-        $entity = $article->hydrate($this->callGetParam('article'));
-
-        // throw exception ici pour gérer le cas où le formulaire a pas été soumis
-
-        $entity->setId($articleId);
-
-        //$articleManager = (new ArticleManager())->save($entity);;
-        //$articleManager = (new ArticleManager())->edit($entity);
-        $articleEdited = $articleManager->edit($entity);
-
-        if (!$articleEdited) {
-            // Si les données on pas pu être modifé en bdd
-            // Alors on affiche les données modifié par le visiteur avec un message d'erreur
+            $commentManager = new CommentManager();
+            $comments = $commentManager->find(['articleId' => $entity->getId()]);
+            //$flashbag = 'Votre article a été modifié avec succès';
+            return $this->renderView(
+                'article.html.twig',
+                [
+                    'titlePage' => 'Article',
+                    'article' => $article,
+                    'comments' => $comments,
+                    //'idArticle' => $articleId,
+                    'message' => 'Votre article a été modifié avec succès'
+                ]
+            );
         }
 
-        // On renvoit vers la vue article
-        //$articleManager = new ArticleManager();
-        $commentManager = new CommentManager();
-        $article = $articleManager->findOne($articleId);
-        $comments = $commentManager->find(['article_id' => $articleId]);
-        $this->renderView(
-            'article.html.twig',
+        // Sinon on renvoi vers la vue articleform
+        return $this->renderView(
+            'articleform.html.twig',
             [
-                'titlePage' => 'Article',
+                'titlePage' => 'Edition d\'un article',
                 'article' => $article,
-                'comments' => $comments,
-                'idArticle' => $articleId
+                'idArticle' => $articleId,
+                'action' => 'edit?id='.$articleId
             ]
         );
     }
@@ -138,21 +141,14 @@ class ArticleController extends DefaultController
     public function deleteAction()
     {
         //$id = $this->getParams();
-        $id = $this->callGetParam('id');
+        $id = $this->getRequestParam('id');
         $articleManager = new ArticleManager();
         $articleDeleted = ($articleManager->delete($id));
 
         if (!$articleDeleted) {
-            throw new \Exception('L\'article n\'a pas pu être supprimé ou  a été supprimé entre temps. <a href="/article">Retour aux articles</a>');
+            throw new \Exception('L\'article n\'a pas pu être supprimé ou  a été supprimé entre temps.');
         }
 
-        $articles = $articleManager->find();
-        $this->renderView(
-            'articles.html.twig',
-            [
-                'articles' => $articles,
-                'message' => 'L\'article a bien été supprimé'
-            ]
-        );
+        header('Location: /article');
     }
 }

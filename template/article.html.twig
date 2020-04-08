@@ -1,10 +1,11 @@
 {% extends "template.html.twig" %}
-{% block title%}{{ titlePage }}{% endblock %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
 {% block content %}
     <h1>{{ titlePage }}</h1>
+    <p>{{ message }}</p>
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
-    <a href="/articleform/edit?id={{ article.id }}">Modifier</a>
+    <a href="/article/edit?id={{ article.id }}">Modifier</a>
     <a href="/article/delete?id={{ article.id }}">Supprimer</a>
     <h2>Commentaires de l'article</h2>
     {% for comment in comments %}
@@ -12,25 +13,20 @@
             Posté par {{ comment.pseudo }}<br>
             {{ comment.comment }}<br>
             <p>{{ comment.id }}</p>
-            <a href="/comment?id={{ comment.id }}">Modifier</a>
+            {# <a href="/comment?id={{ comment.id }}">Modifier</a> #}
+            <a href="/comment/edit?id={{ comment.id }}">Modifier</a>
             <a href="/comment/delete?id={{ comment.id }}">Supprimer</a>
         </p>
     {% endfor %}
-    <h2>Commenter l'article {{ action }}</h2>
-    {# <form action="/comment/edit?id={{ comment.id }}" " method="post"> #}
-    {# <form action="/comment/insert" method="post"> #}
-    <form action="/comment/{{ action }}" method="post">
-        <p>
-            <label for="article_id">ID Article</label><br>
-            <input type="text" id="article_id" name="comment[articleId]" value={{ article.id }}>
-        </p>
+    <h2>Commenter l'article </h2>
+    <form action="/comment/{{ action }}?articleId={{ article.id }}" method="post">
         <p>
             <label for="pseudo">Votre pseudo</label><br>
-            <input type="text" id="pseudo" name="comment[pseudo]" value="{{ comment.pseudo }}">
+            <input type="text" id="pseudo" name="comment[pseudo]" value="{{ comment.pseudo }}" required>
         </p>
         <p>
             <label for="comment">Commentaire</label><br>
-            <textarea id="comment" name="comment[comment]" rows="10" cols="50">{{ comment.comment }}</textarea
+            <textarea id="comment" name="comment[comment]" rows="10" cols="50" required>{{ comment.comment }}</textarea
         </p>
         <p>
             <input type="submit" value="Envoyer">

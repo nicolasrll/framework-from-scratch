@@ -36,7 +36,7 @@ class Comment extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getArticleId()
+    public function getArticleId(): int
     {
         return $this->articleId;
     }
@@ -46,9 +46,9 @@ class Comment extends AbstractEntity
      *
      * @return self
      */
-    public function setArticleId($articleId)
+    public function setArticleId(int $articleId)
     {
-        $this->articleId = $articleId ?? null;
+        $this->articleId = $articleId;
 
         return $this;
     }
@@ -56,7 +56,7 @@ class Comment extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getPseudo()
+    public function getPseudo(): string
     {
         return $this->pseudo;
     }
@@ -66,7 +66,7 @@ class Comment extends AbstractEntity
      *
      * @return self
      */
-    public function setPseudo($pseudo)
+    public function setPseudo(string $pseudo)
     {
         $this->pseudo = $pseudo;
 
@@ -76,7 +76,7 @@ class Comment extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getComment()
+    public function getComment(): string
     {
         return $this->comment;
     }
@@ -86,7 +86,7 @@ class Comment extends AbstractEntity
      *
      * @return self
      */
-    public function setComment($comment)
+    public function setComment(string $comment)
     {
         $this->comment = $comment;
 

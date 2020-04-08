@@ -56,7 +56,7 @@ class Article extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getTitle()
+    public function getTitle(): string
     {
         return $this->title;
     }
@@ -66,7 +66,7 @@ class Article extends AbstractEntity
      *
      * @return self
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
     }
@@ -74,7 +74,7 @@ class Article extends AbstractEntity
     /**
      * @return mixed
      */
-    public function getContent()
+    public function getContent(): string
     {
         return $this->content;
     }
@@ -84,7 +84,7 @@ class Article extends AbstractEntity
      *
      * @return self
      */
-    public function setContent($content)
+    public function setContent(string $content)
     {
         $this->content = $content;
     }

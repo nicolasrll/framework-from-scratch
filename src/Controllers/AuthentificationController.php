@@ -2,9 +2,9 @@
 
 namespace App\Controllers;
 
-use Core\DefaultController;
+use Core\DefaultControllerAbstract;
 
-class AuthentificationController extends DefaultController
+class AuthentificationController extends DefaultControllerAbstract
 {
     public function indexAction()
     {

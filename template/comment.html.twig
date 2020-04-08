@@ -1,7 +1,7 @@
 {% extends "template.html.twig" %}
-{% block title%}{{ titlePage }}{% endblock %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
 {% block content %}
-    <h1>Article</h1>
+    <h1>{{ titlePage }}</h1>
     <h2>{{ article.title }}</h2>
     <p>{{ article.content }}</p>
     <a href="/new?id={{ article.id }}">Modifier</a>
@@ -14,9 +14,6 @@
             <a href="/comment/delete?commentId={{ comment.id }}">Supprimer</a>
         </p>
         <h2>Commenter l'article</h2>
-    {# <form action="/comment/edit?id={{ comment.id }}" " method="post">#}
-    <p>{{ message }}</p>
-    {# <form action="/comment/edit?id={{ comment.id }}" method="post"> #}{{ action }}
     <form action="/comment/{{ action }}" method="post">
         <p>
             <label for="article_id">ID Article</label><br>

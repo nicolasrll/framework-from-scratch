@@ -45,7 +45,7 @@ class Request
         $this->setUrlExploded($this->explodeUrl($this->getUrl()));
     }
 
-    public static function getInstance()
+    public static function getInstance(): Request
     {
         if (is_null(self::$instance)) {
             self::$instance = new Request();

@@ -13,7 +13,7 @@ class PdoConnect
 
     private function __construct() {}
 
-    public static function getInstance()
+    public static function getInstance(): \PDO
     {
 
         if (is_null(self::$pdo)) {

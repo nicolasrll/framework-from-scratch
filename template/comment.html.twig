@@ -1,34 +1,15 @@
 {% extends "template.html.twig" %}
 {% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
 {% block content %}
-    <h1>{{ titlePage }}</h1>
-    <h2>{{ article.title }}</h2>
+    <h1>{{ article.title }}</h1>
+    <p>{{ message }}</p>
     <p>{{ article.content }}</p>
-    <a href="/new?id={{ article.id }}">Modifier</a>
-    <h2>{{ titlePage }}</h2>
-        <p>
-            Posté par {{ comment.pseudo }}<br>
-            {{ comment.comment }}<br>
-            <p>{{ comment.id }}</p>
-            <a href="/comment?id={{ comment.id }}">Modifier</a>
-            <a href="/comment/delete?commentId={{ comment.id }}">Supprimer</a>
-        </p>
-        <h2>Commenter l'article</h2>
-    <form action="/comment/{{ action }}" method="post">
-        <p>
-            <label for="article_id">ID Article</label><br>
-            <input type="text" id="article_id" name="comment[article_id]" value={{ comment.article_id }}>
-        </p>
-        <p>
-            <label for="pseudo">Votre pseudo</label><br>
-            <input type="text" id="pseudo" name="comment[pseudo]" value="{{ comment.pseudo }}">
-        </p>
-        <p>
-            <label for="comment">Commentaire</label><br>
-            <textarea id="comment" name="comment[comment]" rows="10" cols="50">{{ comment.comment }}</textarea
-        </p>
-        <p>
-            <input type="submit" value="Envoyer">
-        </p>
-    </form>
+    <h2>Commentaire</h2>
+    <p>
+        Posté par {{ comment.pseudo }}<br>
+        {{ comment.comment }}<br>
+    </p>
+    <h2>Modifier votre article</h2>
+    {{ include('comment-form.html.twig', {'action': 'edit', 'id': comment.id}) }}
 {% endblock content %}
+

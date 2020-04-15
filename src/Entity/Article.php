@@ -10,51 +10,8 @@ class Article extends AbstractEntity
     protected $title = '';
     protected $content = '';
 
-    // Constructeur temporaire le temps de résouldre mon pb de fetch dans AbstractManager edit setFetchMode
-    /*
-    public function __construct($data)
-    {
-        $this->id = $data['id'] ?? null;
-        $this->title = $data['title'];
-        $this->content = $data['content'];
-    }
-    */
-
-    /*
-    public function hydrate(array $data)
-    {
-        $this->id = $data['id'] ?? null;
-        $this->title = $data['title'] ?? '';
-        $this->content = $data['content'] ?? '';
-
-        return $this;
-    }
-    */
-
     /**
-     * @return mixed
-     */
-    /*
-    public function getId()
-    {
-        return $this->id ?? null;
-    }
-    */
-
-    /**
-     * @param mixed $id
-     *
-     * @return self
-     */
-    /*
-    public function setId($id)
-    {
-        $this->id = $id ?? null;
-    }
-    */
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getTitle(): string
     {
@@ -62,9 +19,7 @@ class Article extends AbstractEntity
     }
 
     /**
-     * @param mixed $title
-     *
-     * @return self
+     * @param string
      */
     public function setTitle(string $title)
     {
@@ -72,7 +27,7 @@ class Article extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getContent(): string
     {
@@ -80,9 +35,7 @@ class Article extends AbstractEntity
     }
 
     /**
-     * @param mixed $content
-     *
-     * @return self
+     * @param string
      */
     public function setContent(string $content)
     {

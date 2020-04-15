@@ -7,7 +7,7 @@ use Core\PdoConnect;
 //use App\Entity\Comment;
 use Core\Traits\CudRepository;
 use Core\Traits\Search;
-
+use Pdo;
 
 abstract class AbstractManager
 {
@@ -15,8 +15,9 @@ abstract class AbstractManager
      use Search;
 
     abstract public function getTableName();
+    abstract public function getTablePk();
 
-    public function getPdo(): \PDO
+    public function getPdo(): Pdo
     {
         return PdoConnect::getInstance();
     }

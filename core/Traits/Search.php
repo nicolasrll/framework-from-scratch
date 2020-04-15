@@ -3,9 +3,30 @@
 namespace Core\Traits;
 
 use Core\AbstractEntity;
+use Pdo;
 
 trait Search
 {
+
+    public function findOne(int $id): ?AbstractEntity
+    {
+        //$pdo = PdoConnect::getInstance();
+        $pdo = $this->getPdo();
+        $tableName = $this->getTableName();
+        //$stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE id = ?');
+        $stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE ' . $this->getTablePk() . ' = ?');
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($tableName));
+        $stmt->execute([ $id ]);
+        $result = $stmt->fetch();
+
+        if (!$result) {
+            return null;
+        }
+
+        return $result;
+    }
+
+    /*
     public function findOne(int $id)//: AbstractEntity
     {
         //$pdo = PdoConnect::getInstance();
@@ -15,9 +36,8 @@ trait Search
         $stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE ' . $this->getTablePk() . ' = ?');
         $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($tableName));
         $stmt->execute([ $id ]);
-
-        return $stmt->fetch();
     }
+    */
 
     // Ex function findAll()
     /**
@@ -40,9 +60,9 @@ trait Search
             foreach ($keys as $key) {
                 $requestSql .= ' AND ' . $key . ' = ?';
             }
-         }
+        }
         $stmt = $pdo->prepare($requestSql);
-        $stmt->setFetchMode(\PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($tableName));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($tableName));
         $stmt->execute($values);
 
         return $stmt->fetchAll();

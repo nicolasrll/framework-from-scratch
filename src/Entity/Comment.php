@@ -34,7 +34,7 @@ class Comment extends AbstractEntity
 */
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getArticleId(): int
     {
@@ -42,8 +42,7 @@ class Comment extends AbstractEntity
     }
 
     /**
-     * @param mixed $article_id
-     *
+     * @param int
      * @return self
      */
     public function setArticleId(int $articleId)
@@ -62,8 +61,7 @@ class Comment extends AbstractEntity
     }
 
     /**
-     * @param mixed $pseudo
-     *
+     * @param string
      * @return self
      */
     public function setPseudo(string $pseudo)
@@ -74,7 +72,7 @@ class Comment extends AbstractEntity
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getComment(): string
     {
@@ -82,8 +80,7 @@ class Comment extends AbstractEntity
     }
 
     /**
-     * @param mixed $comment
-     *
+     * @param string
      * @return self
      */
     public function setComment(string $comment)

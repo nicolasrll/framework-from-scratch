@@ -1,0 +1,11 @@
+<form action="/article/{{ action }}" method="post">
+    <p>
+        <label for="title">Titre de l'article</label><br>
+        <input type="text" id="title" name="article[title]" value="{{ article.title ?? '' }}"  required>
+    </p>
+    <p>
+        <label for="content">Contenu</label><br>
+        <textarea id="content" name="article[content]" rows="10" cols="50" required>{{ article.content ?? ''}}</textarea>
+    </p>
+    <input type="submit" value="Envoyer"><br>
+</form>

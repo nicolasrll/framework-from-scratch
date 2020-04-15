@@ -4,7 +4,8 @@ namespace Core;
 
 abstract class AbstractEntity
 {
-    public function hydrate(array $data){
+    public function hydrate(array $data): AbstractEntity
+    {
         foreach ($data as $property => $value) {
             $method = 'set'.ucfirst($property);
             if(method_exists($this, $method)) {
@@ -33,7 +34,7 @@ abstract class AbstractEntity
         $this->id = $id;
     }
 
-    public function convertToArray()
+    public function convertToArray(): array
     {
         $data = get_object_vars($this);
         unset($data['id']);

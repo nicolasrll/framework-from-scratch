@@ -1,0 +1,7 @@
+{% extends "template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    <p>{{ flashbag }}</p>
+    {{ include ('back/_article_form.html.twig', {'action' : 'new' }) }}
+{% endblock content %}

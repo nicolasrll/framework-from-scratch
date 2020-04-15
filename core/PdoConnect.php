@@ -2,6 +2,8 @@
 
 namespace Core;
 
+use Pdo;
+
 /**
  * Used to get the database connexion as singleton
  * @author  Nicolas Rellier <nicolasrellier@yahoo.fr>
@@ -13,12 +15,10 @@ class PdoConnect
 
     private function __construct() {}
 
-    public static function getInstance(): \PDO
+    public static function getInstance(): PDO
     {
-
         if (is_null(self::$pdo)) {
-            //self::$pdo = new \PDO('mysql:host=localhost; dbname=ffs', 'nicolas', 'root');
-            self::$pdo = new \PDO('mysql:host=localhost; dbname=ffs-prod', 'nicolas', 'root');
+            self::$pdo = new PDO(DSN . ';dbname=' . DBNAME, DBUSER, DBPASSWORD);
         }
         return self::$pdo;
 

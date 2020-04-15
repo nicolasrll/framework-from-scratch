@@ -43,13 +43,13 @@ trait CudRepository
         //$pdo = PdoConnect::getInstance();
         $pdo = $this->getPdo();
         //$sql = 'UPDATE ' . $tableName . ' SET ' . $columns . ' WHERE id = ' . $id;
-        $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . $columns . ' WHERE ' . $this->getTablePk() . ' = ' . $id;
+        $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . $columns . ' WHERE id = ' . $id;
         $stmt = $pdo->prepare($sql);
 
         return $stmt->execute($values);
     }
 
-    public function delete(int $id)//: bool
+    public function delete(int $id): bool
     {
         //$tableName = $this->getTableName();
         //$pdo = PdoConnect::getInstance();

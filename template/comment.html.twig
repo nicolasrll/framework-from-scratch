@@ -1,0 +1,15 @@
+{% extends "template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ article.title }}</h1>
+    <p>{{ message }}</p>
+    <p>{{ article.content }}</p>
+    <h2>Commentaire</h2>
+    <p>
+        Posté par {{ comment.pseudo }}<br>
+        {{ comment.comment }}<br>
+    </p>
+    <h2>Modifier votre article</h2>
+    {{ include('comment-form.html.twig', {'action': 'edit', 'id': comment.id}) }}
+{% endblock content %}
+

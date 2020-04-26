@@ -1,0 +1,6 @@
+{% extends "template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    {{ include ('back/_article_form.html.twig', {'action' : 'edit?id=' ~ articleId }) }}
+{% endblock content %}

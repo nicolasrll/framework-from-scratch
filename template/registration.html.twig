@@ -2,8 +2,8 @@
 {% block title%}{{ titlePage }} - Framework from scratch{% endblock title %}
 {% block content %}
     <h1>{{ titlePage }}</h1>
-    <h2>Connectez vous à votre compte utilisateur</h2>
-    <form action="/authentification/login" method="post">
+    <h2>Inscrivez-vous</h2>
+    <form action="/authentification/registration" method="post">
         <p>
             <label for="email">Email</label><br>
             <input type="text" id="email" name="authentification[title]">
@@ -12,7 +12,11 @@
             <label for="password">Mot de passe</label><br>
             <input type="password" id="password" name="authentification[password]">
         </p>
+        <p>
+            <label for="checkpassword">Resaisssir le mot de passe</label><br>
+            <input type="checkpassword" id="checkpassword" name="authentification[checkpassword]">
+        </p>
         <input type="submit" value="Connexion"><br>
     </form>
-    <p>Pas encore inscrit? <a href="/authentification/registration">Inscrivez-vous</a>
+    <p>Déjà inscrit? <a href="/authentification/login">Connectez-vous</a>
 {% endblock content %}

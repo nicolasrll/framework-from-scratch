@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use Core\DefaultController;
+use Core\DefaultControllerAbstract;
 
-class AccueilController extends DefaultController
+class HomeController extends DefaultControllerAbstract
 {
     public function indexAction()
     {
         $this->renderView(
-            'accueil.html.twig',
+            'home.html.twig',
             [
                 'titlePage' => 'Accueil'
             ]

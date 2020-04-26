@@ -1,5 +1,21 @@
 {% extends "template.html.twig" %}
-{% block title%}Article{% endblock %}
+{% block title%}{{ article.title }} - Framework from scratch{% endblock %}
 {% block content %}
-    <h1>Article</h1>
+    <h1>{{ article.title }}</h1>
+    <p>{{ flashbag }}</p>
+    <p>{{ article.content }}</p>
+    <a href="/article/edit?id={{ article.id }}">Modifier</a>
+    <a href="/article/delete?id={{ article.id }}">Supprimer</a>
+    <h2>Commentaires de l'article</h2>
+    {% for comment in comments %}
+        <p>
+            Posté par {{ comment.pseudo }}<br>
+            {{ comment.comment }}<br>
+            {# <a href="/comment?id={{ comment.id }}">Modifier</a> #}
+            <a href="/comment/edit?id={{ comment.id }}">Modifier</a>
+            <a href="/comment/delete?id={{ comment.id }}">Supprimer</a>
+        </p>
+    {% endfor %}
+    <h2>Commenter l'article</h2>
+    {{ include('comment-form.html.twig', {'action': 'new', 'id': article.id}) }}
 {% endblock content %}

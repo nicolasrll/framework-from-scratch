@@ -6,44 +6,55 @@ namespace Core;
  * Used to retrieve controllerName and actionName in request
  *
  * @author Nicolas Rellier <nicolasrellier@yahoo.fr>
+ *
+ *
+ *
+ * initialize $request with object passed in parameter,
+ * $controllerName and $actionName with url exploded
+ *
+ * Exemple:
+ *     monsite.fr/article/voir
+ *
+ *     new Router() = {
+ *         controllerName : 'ArticleController'
+ *         actionName : 'voirAction'
+ *     }
+ *
+ *     monsite.fr/article
+ *     new Router() = {
+ *         controllerName : 'ArticleController'
+ *         actionName : 'indexAction'
+ *     }
+ *
+ *     monsite.fr/
+ *     new Router() = {
+ *         controllerName : 'AccueilController'
+ *         actionName : 'indexAction'
+ *     }
  */
+
 class Router
 {
     private $request;
-    private $controllerName = 'AccueilController';
+    private $controllerName = 'HomeController';
     private $actionName = 'indexAction';
-    const CONTROLLER_POSITION = 0;
-    const ACTION_POSITION = 1;
+    private $admin = false;
+    private $controllerPosition = 0;
+    //const CONTROLLER_POSITION = 0;
+    //const ACTION_POSITION = 1;
 
-    /**
-     * initialize $request with object passed in parameter,
-     * $controllerName and $actionName with url exploded
-     *
-     * Exemple:
-     *     monsite.fr/article/voir
-     *
-     *     new Router() = {
-     *         controllerName : 'ArticleController'
-     *         actionName : 'voirAction'
-     *     }
-     *
-     *     monsite.fr/article
-     *     new Router() = {
-     *         controllerName : 'ArticleController'
-     *         actionName : 'indexAction'
-     *     }
-     *
-     *     monsite.fr/
-     *     new Router() = {
-     *         controllerName : 'AccueilController'
-     *         actionName : 'indexAction'
-     *     }
-     */
     public function __construct()
     {
         $this->setRequest(Request::getInstance());
-        $controllerName = $this->getRequest()->getUrlExplodedByIndex(self::CONTROLLER_POSITION) ?? 'Accueil';
-        $actionName = $this->getRequest()->getUrlExplodedByIndex(self::ACTION_POSITION) ?? 'index';
+        $param = $this->request->getUrlExplodedByIndex(0);
+
+        if (isset($param) && 'admin' === $this->request->getUrlExplodedByIndex(0)) {
+            ++$this->controllerPosition;
+            $this->admin = true;
+        }
+
+        $controllerName = $this->getRequest()->getUrlExplodedByIndex($this->controllerPosition) ?? 'Home';
+        $actionName = $this->getRequest()->getUrlExplodedByIndex(++$this->controllerPosition) ?? 'index';
         $this->setControllerName($controllerName);
         $this->setActionName($actionName);
     }
@@ -80,5 +91,10 @@ class Router
         if (!empty($actionName)) {
             $this->actionName = $actionName . 'Action';
         }
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->admin;
     }
 }

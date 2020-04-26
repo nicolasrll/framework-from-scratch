@@ -3,11 +3,9 @@
 namespace App\Controllers;
 
 use Core\DefaultControllerAbstract;
-use Core\Request;
 use App\Repository\ArticleManager;
 use App\Repository\CommentManager;
 use App\Entity\Article;
-use App\Entity\Comment;
 use Exception;
 
 //use App\Repository\AbstractManager;
@@ -21,7 +19,7 @@ class ArticleController extends DefaultControllerAbstract
         $articles = (new ArticleManager())->find();
 
         return $this->renderView(
-            'articles.html.twig',
+            'front/articles.html.twig',
             [
                 'titlePage' => 'Articles',
                 'articles' => $articles
@@ -35,11 +33,11 @@ class ArticleController extends DefaultControllerAbstract
         $articleManager = new ArticleManager();
         $commentManager = new CommentManager();
         $articleId = $this->getParamAsInt('id');
-        $article = $articleManager->findOne($articleId);
+        $article = $articleManager->findOneById($articleId);
         $comments = $commentManager->find(['articleId' => $articleId]);
 
         return $this->renderView(
-            'article.html.twig',
+            'front/article.html.twig',
             [
                 'article' => $article,
                 'comments' => $comments,
@@ -81,11 +79,11 @@ class ArticleController extends DefaultControllerAbstract
         $articleId = $this->getParamAsInt('id');
 
         if (null == $articleId) {
-            throw new Exception('Une erreur s\'est produite');
+            throw new Exception('Une erreur est survenue');
         }
 
         $articleManager = new ArticleManager();
-        $article = $articleManager->findOne($articleId);
+        $article = $articleManager->findOneById($articleId);
 
         if (!$article) {
             throw new Exception('L\'article que vous souhaitez mettre à jour n\'est plus disponible');
@@ -108,7 +106,7 @@ class ArticleController extends DefaultControllerAbstract
             $comments = $commentManager->find(['articleId' => $entity->getId()]);
 
             return $this->renderView(
-                'article.html.twig',
+                'front/article.html.twig',
                 [
                     'article' => $article,
                     'comments' => $comments,

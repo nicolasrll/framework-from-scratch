@@ -40,8 +40,6 @@ class Router
     private $actionName = 'indexAction';
     private $admin = false;
     private $controllerPosition = 0;
-    //const CONTROLLER_POSITION = 0;
-    //const ACTION_POSITION = 1;
 
     public function __construct()
     {
@@ -55,8 +53,9 @@ class Router
 
         $controllerName = $this->getRequest()->getUrlExplodedByIndex($this->controllerPosition) ?? 'Home';
         $actionName = $this->getRequest()->getUrlExplodedByIndex(++$this->controllerPosition) ?? 'index';
-        $this->setControllerName($controllerName);
-        $this->setActionName($actionName);
+
+        $this->setControllerName($controllerName)
+            ->setActionName($actionName);
     }
 
     public function getRequest(): Request
@@ -67,6 +66,8 @@ class Router
     public function setRequest(Request $request)
     {
         $this->request = $request;
+
+        return $this;
     }
 
     public function getControllerName(): string
@@ -79,6 +80,8 @@ class Router
         if (!empty($controllerName)) {
             $this->controllerName = ucfirst($controllerName).'Controller';
         }
+
+        return $this;
     }
 
     public function getActionName(): string
@@ -91,6 +94,8 @@ class Router
         if (!empty($actionName)) {
             $this->actionName = $actionName . 'Action';
         }
+
+        return $this;
     }
 
     public function isAdmin(): bool

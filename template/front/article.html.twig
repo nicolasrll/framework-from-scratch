@@ -1,11 +1,9 @@
-{% extends "template.html.twig" %}
+{% extends "front/template.html.twig" %}
 {% block title%}{{ article.title }} - Framework from scratch{% endblock %}
 {% block content %}
     <h1>{{ article.title }}</h1>
     <p>{{ flashbag }}</p>
     <p>{{ article.content }}</p>
-    <a href="/article/edit?id={{ article.id }}">Modifier</a>
-    <a href="/article/delete?id={{ article.id }}">Supprimer</a>
     <h2>Commentaires de l'article</h2>
     {% for comment in comments %}
         <p>
@@ -17,5 +15,5 @@
         </p>
     {% endfor %}
     <h2>Commenter l'article</h2>
-    {{ include('comment-form.html.twig', {'action': 'new', 'id': article.id}) }}
+    {{ include('front/comment-form.html.twig', {'action': 'new', 'id': article.id}) }}
 {% endblock content %}

@@ -3,9 +3,6 @@
 namespace App\Controllers;
 
 use Core\DefaultControllerAbstract;
-use Core\Request;
-use Exception;
-
 
 class AuthentificationController extends DefaultControllerAbstract
 {
@@ -13,7 +10,7 @@ class AuthentificationController extends DefaultControllerAbstract
     public function indexAction()
     {
         $this->renderView(
-            'authentification.html.twig',
+            'front/authentification.html.twig',
             [
                 'titlePage' => 'Authentification'
             ]
@@ -27,7 +24,7 @@ class AuthentificationController extends DefaultControllerAbstract
 
         }
         return $this->renderView(
-            'authentification.html.twig'
+            'front/authentification.html.twig'
         );
         /*
         $infos = ($this->getFormValues('authentification'));

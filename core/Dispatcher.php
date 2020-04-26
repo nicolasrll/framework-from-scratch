@@ -38,12 +38,11 @@ class Dispatcher
     {
     	$this->router = new Router();
 
-        if ($this->router->isAdmin()) {
-            $this->controllerPath = 'src/Controllers/Admin/' . ucfirst($this->router->getControllerName()) . '.php';
-            return $this;
-        }
+        $basePath = $this->router->isAdmin()
+            ? 'src/Controllers/Admin/'
+            : 'src/Controllers/';
 
-        $this->controllerPath = 'src/Controllers/' . ucfirst($this->router->getControllerName()) . '.php';
+        $this->controllerPath = $basePath . ucfirst($this->router->getControllerName()) . '.php';
 
         return $this;
     }

@@ -1,4 +1,4 @@
-{% extends "template.html.twig" %}
+{% extends "front/template.html.twig" %}
 {% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
 {% block content %}
     <h1>{{ article.title }}</h1>
@@ -10,6 +10,6 @@
         {{ comment.comment }}<br>
     </p>
     <h2>Modifier votre article</h2>
-    {{ include('comment-form.html.twig', {'action': 'edit', 'id': comment.id}) }}
+    {{ include('front/comment-form.html.twig', {'action': 'edit', 'id': comment.id}) }}
 {% endblock content %}
 

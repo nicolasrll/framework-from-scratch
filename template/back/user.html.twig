@@ -1,0 +1,15 @@
+{% extends "template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    {% for user in users %}
+        <p>
+            {{ user.email }}<br>
+            {{ user.password }}<br>
+            {{ user.isConnected }}<br>
+            {{ user.isBanned }}<br>
+            {{ user.accountDisabled }}<br>
+            <a href="#">Supprimer le compte</a>
+        </p>
+    {% endfor %}
+{% endblock content %}

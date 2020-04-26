@@ -3,10 +3,9 @@
 namespace App\Controllers;
 
 use Core\DefaultControllerAbstract;
-use Core\Request;
+//use Core\Request;
 use App\Repository\ArticleManager;
 use App\Repository\CommentManager;
-use App\Entity\Article;
 use App\Entity\Comment;
 use Exception;
 
@@ -29,7 +28,6 @@ class CommentController extends DefaultControllerAbstract
 
     public function newAction()
     {
-        //$entity = (new Comment())->hydrate($this->getRequestParam('comment'));
         if (!$this->isSubmited('comment')) {
             throw new Exception ('L\'article n\'a pas pu être créé');
         }
@@ -43,7 +41,7 @@ class CommentController extends DefaultControllerAbstract
         //$articles = (new ArticleManager())->find();
         /*
         $this->renderView(
-            'articles.html.twig',
+            'front/articles.html.twig',
             [
                 'titlePage' => 'Articles',
                 'articles' => $articles,
@@ -59,7 +57,7 @@ class CommentController extends DefaultControllerAbstract
         $commentManager = new CommentManager();
         //$commentId = $this->getRequestParam('id');
         $commentId = $this->getParamAsInt('id');
-        $comment = $commentManager->findOne($commentId);
+        $comment = $commentManager->findOneById($commentId);
 
         if (!$comment) {
             throw new Exception('Le commentaire que vous souhaitez mettre jour n\'est plus disponible');
@@ -67,19 +65,18 @@ class CommentController extends DefaultControllerAbstract
 
         // Retrieve article associated
         $articleManager = new ArticleManager();
-        $article = $articleManager->findOne($comment->getArticleId());
+        $article = $articleManager->findOneById($comment->getArticleId());
 
-        if($this->isSubmited('comment'))
-        {
+        if ($this->isSubmited('comment')) {
             //$entity = $comment->hydrate($this->getRequestParam('comment'));
             $entity = $comment->hydrate($this->getFormValues('comment'));
             $commentEdited = $commentManager->update($entity);
 
             if (!$commentEdited) {
-                $comment = $commentManager->findOne($commentId);
+                $comment = $commentManager->findOneById($commentId);
 
                 return $this->renderView(
-                    'comment.html.twig',
+                    'front/comment.html.twig',
                     [
                         'titlePage' => 'Modification du commentaire',
                         'article' => $article,
@@ -95,17 +92,17 @@ class CommentController extends DefaultControllerAbstract
 
             // If comment edited Return article associated and its comment
             return $this->renderView(
-                'article.html.twig',
+                'front/article.html.twig',
                 [
                     'article' => $article,
                     'comments' => $comments,
-                    'flashbag' => 'Votre commentaire a été modifié avec succès'
+                    'flashbag' => 'Votre commentaire a été modifié avec succès',
                 ]
             );
         }
 
         return $this->renderView(
-            'comment.html.twig',
+            'front/comment.html.twig',
             [
                 'titlePage' => 'Modification du commentaire',
                 'article' => $article,
@@ -122,14 +119,14 @@ class CommentController extends DefaultControllerAbstract
         $id = $this->getParamAsInt('id');
         $commentManager = new commentManager();
         // Get the article before to delete it to find article id
-        $comment = $commentManager->findOne($id);
+        $comment = $commentManager->findOneById($id);
         $commentManager->delete($id);
 
         header('Location: /article/see?id=' . $comment->getArticleId());
         /*
         $articles = (new ArticleManager())->find();
         return $this->renderView(
-            'articles.html.twig',
+            'front/articles.html.twig',
             [
                 'titlePage' => 'Articles',
                 'articles' => $articles,

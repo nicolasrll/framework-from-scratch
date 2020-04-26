@@ -5,26 +5,24 @@ namespace Core\Traits;
 use Core\AbstractEntity;
 use Pdo;
 
-trait Search
+trait SearchRepository
 {
 
-    public function findOne(int $id): ?AbstractEntity
+    public function findOneById(int $id): ?AbstractEntity
     {
-        //$pdo = PdoConnect::getInstance();
-        $pdo = $this->getPdo();
-        $tableName = $this->getTableName();
-        //$stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE id = ?');
-        $stmt = $pdo->prepare('SELECT * FROM ' . $tableName . ' WHERE ' . $this->getTablePk() . ' = ?');
-        $stmt->setFetchMode(PDO::FETCH_CLASS, 'App\Entity\\'. ucfirst($tableName));
-        $stmt->execute([ $id ]);
-        $result = $stmt->fetch();
-
-        if (!$result) {
-            return null;
-        }
-
-        return $result;
+        return $this->findOne([
+            $this->getTablePk() => $id
+        ]);
     }
+
+    public function findOne(array $filters = [])
+    {
+        $data = $this->find($filters);
+
+        return !empty($data) ? reset($data) : null ;
+    }
+
+
 
     /*
     public function findOne(int $id)//: AbstractEntity

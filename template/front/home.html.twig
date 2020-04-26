@@ -1,0 +1,23 @@
+{% extends "front/template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    <form action="/home/contact" method="post">
+    <p>
+        <label for="fullname">Nom prenom</label><br>
+        <input type="text" id="fullname" name="contact[fullname]" required>
+    </p>
+    <p>
+        <label for="email">Adresse email</label><br>
+        <input type="email" id="email" name="contact[email]" required>
+    </p>
+    <p>
+        <label for="message">Votre message</label><br>
+        <textarea id="message" name="contact[message]" rows="10" cols="50" required></textarea
+    </p>
+    <p>
+        <input type="submit" value="Envoyer">
+    </p>
+</form>
+
+{% endblock content%}

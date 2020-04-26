@@ -5,7 +5,6 @@ namespace Core;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
 use Exception;
-//use TypeError;
 
 abstract class DefaultControllerAbstract
 {
@@ -69,7 +68,6 @@ abstract class DefaultControllerAbstract
     }
     */
 
-
     public function isSubmited(string $arg): bool
     {
         // Check if we passed another thing than an array
@@ -79,16 +77,5 @@ abstract class DefaultControllerAbstract
 
         return true;
     }
-
-    /*
-    public function isSubmited($arg)
-    {
-        if (empty($arg)) {
-            throw new Exception('Un problème est survenu');
-        }
-
-        return $this->getRequestParam($arg);
-    }
-    */
 }
 

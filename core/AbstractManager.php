@@ -3,16 +3,14 @@
 namespace Core;
 
 use Core\PdoConnect;
-//use App\Entity\Article;
-//use App\Entity\Comment;
-use Core\Traits\CudRepository;
-use Core\Traits\Search;
 use Pdo;
+use Core\Traits\CudRepository;
+use Core\Traits\SearchRepository;
 
 abstract class AbstractManager
 {
      use CudRepository;
-     use Search;
+     use SearchRepository;
 
     abstract public function getTableName();
     abstract public function getTablePk();

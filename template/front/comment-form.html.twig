@@ -1,0 +1,13 @@
+<form action="/comment/{{ action }}?id={{ id }}" method="post">
+    <p>
+        <label for="pseudo">Votre pseudo</label><br>
+        <input type="text" id="pseudo" name="comment[pseudo]" value="{{ submitedComment.pseudo ?? ''}}" required>
+    </p>
+    <p>
+        <label for="comment">Commentaire</label><br>
+        <textarea id="comment" name="comment[comment]" rows="10" cols="50" required>{{ submitedComment.comment ?? ''}}</textarea
+    </p>
+    <p>
+        <input type="submit" value="Envoyer">
+    </p>
+</form>

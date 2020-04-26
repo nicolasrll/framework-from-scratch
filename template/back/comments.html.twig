@@ -1,0 +1,13 @@
+{% extends "template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    {% for comment in comments %}
+        <p>
+            Posté par {{ comment.pseudo }}<br>
+            {{ comment.comment }}<br>
+            <p>{{ comment.id }}</p>
+            <a href="/comment/delete?commentId={{ comment.id }}">Supprimer</a>
+        </p>
+    {% endfor %}
+{% endblock content %}

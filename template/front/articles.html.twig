@@ -1,0 +1,10 @@
+{% extends "front/template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    <p>{{ message }}</p>
+    {% for article in articles %}
+        <h2><a href="/article/see?id={{ article.id }}">{{ article.title}}</a></h2>
+        <p>{{ article.content }}</p>
+    {% endfor %}
+{% endblock content %}

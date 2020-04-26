@@ -2,42 +2,49 @@
 
 namespace Core;
 
+use Exception;
+
 /**
  * Used to execute the action in the asssociated controller
+ * Initialize property router and controllerPath
+ *
+ * Exemple:
+ *     monsite.fr/article/voir
+ *     new Router() = {
+ *         controllerPath : 'Controllers/ArticleController.php'
+ *         controller : object(ArticleController)
+ *     }
+ *
+ *     monsite.fr/article
+ *     new Router() = {
+ *         controllerPath : 'Controllers/ArticleController.php'
+ *         controller : object(ArticleController)
+ *     }
+ *
+ *     monsite.fr/
+ *     new Router() = {
+ *         controllerPath : 'Controllers/HomeController.php'
+ *         controller : object(HomeController)
+ *     }
  */
+
 class Dispatcher
 {
     private $router = null;
     private $controllerPath = '';
     private $controller = null;
 
-    /**
-     * Initialize property router and controllerPath
-     *
-     * Exemple:
-     *     monsite.fr/article/voir
-     *
-     *     new Router() = {
-     *         controllerPath : 'Controllers/ArticleController.php'
-     *         controller : object(ArticleController)
-     *     }
-     *
-     *     monsite.fr/article
-     *     new Router() = {
-     *         controllerPath : 'Controllers/ArticleController.php'
-     *         controller : object(ArticleController)
-     *     }
-     *
-     *     monsite.fr/
-     *     new Router() = {
-     *         controllerPath : 'Controllers/AccueilController.php'
-     *         controller : object(ArticleController)
-     *     }
-     */
     public function __construct()
     {
     	$this->router = new Router();
-	    $this->controllerPath = 'src/Controllers/' . ucfirst($this->router->getControllerName()) . '.php';
+
+        $basePath = $this->router->isAdmin()
+            ? 'src/Controllers/Admin/'
+            : 'src/Controllers/';
+
+        $this->controllerPath = $basePath . ucfirst($this->router->getControllerName()) . '.php';
+
+        return $this;
     }
 
     /**
@@ -70,7 +77,7 @@ class Dispatcher
     /**
      * Getter for controller instance
      */
-    public function getController()
+    public function getController(): DefaultControllerAbstract
     {
         return $this->controller;
     }
@@ -78,7 +85,7 @@ class Dispatcher
     /**
      * Setter for controller instance
      */
-    public function setController($controller)
+    public function setController(string $controller)
     {
         $controller = 'App\Controllers\\'.$controller;
         $this->controller = new $controller;
@@ -91,7 +98,7 @@ class Dispatcher
     {
         if (!file_exists($this->getControllerPath()))
         {
-            throw new \Exception('Le controller recherché n\'existe pas');
+            throw new Exception('Le controller recherché n\'existe pas');
         }
 
         require_once($this->getControllerPath());
@@ -100,7 +107,7 @@ class Dispatcher
 
         if (!method_exists($this->controller, $this->getRouter()->getActionName()))
         {
-            throw new \Exception('L\'action demandé n\'est pas disponible');
+            throw new Exception('L\'action demandé n\'est pas disponible');
         }
 
         call_user_func([$this->getController() , $this->router->getActionName()]);

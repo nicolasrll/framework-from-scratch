@@ -1,0 +1,18 @@
+{% extends "front/template.html.twig" %}
+{% block title%}{{ titlePage }} - Framework from scratch{% endblock title %}
+{% block content %}
+    <h1>{{ titlePage }}</h1>
+    <h2>Connectez vous à votre compte utilisateur</h2>
+    <form action="/authentification/login" method="post">
+        <p>
+            <label for="email">Email</label><br>
+            <input type="text" id="email" name="authentification[email]">
+        </p>
+        <p>
+            <label for="password">Mot de passe</label><br>
+            <input type="password" id="password" name="authentification[password]">
+        </p>
+        <input type="submit" value="Connexion"><br>
+    </form>
+    <p>Pas encore inscrit? <a href="/authentification/registration">Inscrivez-vous</a>
+{% endblock content %}
